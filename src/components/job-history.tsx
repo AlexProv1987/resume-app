@@ -1,4 +1,4 @@
-import { Card, Carousel, Nav, Tab, Tabs } from "react-bootstrap"
+import { Card, Container, Nav, Tab, Tabs } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
@@ -56,20 +56,24 @@ export const JobHistory = () => {
     }, []);
 
     return (
-        <Nav fill variant="tabs" activeKey={key ? key : 'Loading..'}>
-            {key && jobs ?
-                <>
-                    {jobs.map(function (job:Job) {
-                        return (
-                            <Nav.Item key={job.id}>
-                                <Nav.Link eventKey={job.employer_name} onClick={() => setKey(job.employer_name)}>{job.employer_name} <span style={{ marginLeft: '2rem' }}><ArrowRight /></span></Nav.Link>
-                            </Nav.Item>
-                        )
-                    })}
-                </>
-                : <CenteredSpinner />
+        <Container>
+            <Nav fill variant="tabs" activeKey={key ? key : 'Loading..'}>
+                {jobs ?
+                    <>
+                        {jobs.map(function (job: Job) {
+                            return (
+                                <Nav.Item key={job.id}>
+                                    <Nav.Link eventKey={job.employer_name} onClick={() => setKey(job.employer_name)}>{job.employer_name} <span style={{ marginLeft: '2rem' }}><ArrowRight /></span></Nav.Link>
+                                </Nav.Item>
+                            )
+                        })}
+                    </>
+                    : <CenteredSpinner />
+                }
+            </Nav>
+            {key &&
+                <p>content component here</p>
             }
-
-        </Nav>
+        </Container>
     );
 }
