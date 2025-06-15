@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap"
+import { Card, Col, Row } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
@@ -8,6 +8,7 @@ interface Skill {
   skill_name: string,
   skill_description: string,
   years_of_experience: number,
+  skill_logo:string,
 }
 export const Skills = () => {
   const [skills, setSkills] = useState<Skill[] | null>(null)
@@ -28,14 +29,17 @@ export const Skills = () => {
       <Card.Header>Skills</Card.Header>
       {skills ?
         <Card.Body>
-          {skills.map(function (skill: Skill) {
-            return (
-              <div className="border-bottom pb-1" key={skill.id}>
-                <Card.Text>{skill.skill_name}</Card.Text>
-                <Card.Text>{`Experience: ${skill.years_of_experience} Years.`}</Card.Text>
-              </div>
-            )
-          })}
+          <Row>
+            {skills.map(function (skill: Skill) {
+              return (
+                <Col className="pb-3" key={skill.id}>
+                  <Card.Img variant="top" style={{ maxHeight: '40px', maxWidth: '40px' }} src={skill.skill_logo} />
+                  <Card.Text style={{ fontSize: '12px' }}>
+                    {skill.skill_name}</Card.Text>
+                </Col>
+              )
+            })}
+          </Row>
         </Card.Body>
         : <CenteredSpinner />
       }

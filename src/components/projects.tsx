@@ -68,7 +68,7 @@ export const Projects = () => {
     }
 
     return (
-        <Container style={{ marginTop: '3rem' }}>
+        <Container style={{ marginTop: '3rem', marginBottom:'2rem' }}>
             <Card className="shadow justify-content-around" style={{ minHeight: '16rem', width: '100%' }}>
                 <Card.Header>
                     <Row>

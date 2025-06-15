@@ -1,8 +1,10 @@
-import { Card } from "react-bootstrap"
+import { Card, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
+import { BookmarkPlus } from 'react-bootstrap-icons';
+
 interface Certification {
     id: number,
     attained_on: string,
@@ -29,8 +31,13 @@ export const Certifications = () => {
                 <Card.Body>
                     {certifications.map(function (certification: Certification) {
                         return (
-                            <div className="border-bottom pb-1" key={certification.id}>
-                                <Card.Text>{certification.name}</Card.Text>
+                            <div className="pb-2" key={certification.id}>
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={<Tooltip>{certification.name}</Tooltip>}
+                                >
+                                    <Card.Text style={{ fontSize: '14px' }}><span><BookmarkPlus size={25} color='green' /></span>{certification.name.length > 30 ? certification.name.substring(0, 30) + '...' : certification.name}</Card.Text>
+                                </OverlayTrigger>
                             </div>
                         )
                     })
