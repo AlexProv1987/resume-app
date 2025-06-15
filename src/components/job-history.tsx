@@ -72,7 +72,7 @@ export const JobHistory = () => {
                 }
             </Nav>
             {key &&
-                <p>content component here</p>
+                <p>{key}</p>
             }
         </Container>
     );
