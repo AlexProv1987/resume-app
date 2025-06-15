@@ -37,3 +37,22 @@
     transform: rotate(360deg);
   }
 }
+
+.walking-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: walk-across 5s ease-in-out infinite alternate;
+  z-index: 1; /* Behind the text */
+}
+
+@keyframes walk-across {
+  0% {
+    left: 0;
+    transform: translateY(-50%) scaleX(1); /* Facing right */
+  }
+  100% {
+    left: 100%;
+    transform: translateY(-50%) translateX(-100%) scaleX(-1); /* Flip horizontally */
+  }
+}

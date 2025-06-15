@@ -34,12 +34,12 @@ export const EducationHistory = () => {
         <Card.Body>
           {education.map(function (education: Education) {
             return (
-              <div className="text-center" key={education.id}>
+              <div className="pb-3" key={education.id}>
                 <Card.Title>
                   <span><Mortarboard size={25} color='blue' /></span> {education.name}
                 </Card.Title>
-                <Card.Text>{education.area_of_study}</Card.Text>
-                <Card.Text>{`${education.from_date} - ${education.to_date}`}</Card.Text>
+                <Card.Text style={{ fontSize: '14px' }} className="mb-0">{education.education_level}</Card.Text>
+                <Card.Text style={{ fontSize: '14px' }}>{education.area_of_study}</Card.Text>
               </div>
             )
           })

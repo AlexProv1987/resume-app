@@ -1,9 +1,9 @@
-import { Container, Fade, Row, Col, Card } from "react-bootstrap"
+import { Container, Fade, Row, Col, Card, ListGroup } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { ArrowRight, ArrowLeft } from 'react-bootstrap-icons';
+import { ArrowRight, ArrowLeft, Activity } from 'react-bootstrap-icons';
 interface JobDetails {
     id: string,
     order: number,
@@ -15,7 +15,7 @@ interface Job {
     position: number,
     current_employer: boolean,
     from_date: string,
-    to_date: Date,
+    to_date: string,
     job_title: string,
     employer_name: string,
     order: number,
@@ -112,14 +112,23 @@ export const JobHistory = () => {
                 </Card.Header>
                 {selectedJob ?
                     <Card.Body>
-                        <Card.Text>
-                            {selectedJob.employer_name}
+                        <Row className="d-flex justify-content-between pb-2">
+                            <Col className="text-start" style={{fontSize:'18px', fontWeight:'bold', fontStyle:'italic'}}>
+                                {selectedJob.job_title}
+                            </Col>
+                        </Row>
+                         <Row className="d-flex justify-content-between pb-2">
+                            <Col className="text-start" style={{fontSize:'14px'}}>
+                                {selectedJob.from_date} - {selectedJob.to_date ? selectedJob.to_date : 'Current'}
+                            </Col>
+                        </Row>
+                            <ListGroup variant="flush">
                             {selectedJob.details.map(function (details: JobDetails) {
                                 return (
-                                    <li key={details.id}>{details.work_detail_text}</li>
+                                    <ListGroup.Item action key={details.id}><span className="mr-2" ><Activity size={20} color='#BE406E'/></span> {details.work_detail_text}</ListGroup.Item>
                                 )
                             })}
-                        </Card.Text>
+                            </ListGroup>
                     </Card.Body>
                     :
                     <CenteredSpinner />

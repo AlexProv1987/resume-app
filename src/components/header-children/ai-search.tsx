@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Form, Container } from "react-bootstrap"
+import { Form, Container, Row, Col } from "react-bootstrap"
 import { CenteredSpinner } from "../common/centered-spinner"
 
 interface SearchCompProps {
@@ -10,6 +10,19 @@ interface SearchCompProps {
 //we need to check device for width needs to be 100% on mobile
 export const SearchComponent = (props: SearchCompProps) => {
     const [inputVal, setInputVal] = useState<string>('')
+    const [showError, setShowError] = useState(false)
+
+    const submitQuestion = () => {
+        if (inputVal.length < 45) {
+            setShowError(true);
+            return;
+        }
+        setShowError(false);
+        setInputVal('')
+        //submission logic here
+        alert(inputVal);
+    }
+
     return (
         <Container
             fluid
@@ -23,16 +36,37 @@ export const SearchComponent = (props: SearchCompProps) => {
                 alignItems: 'center',
             }}>
             {props.applicant_name_first !== 'undefined' ?
-                <Form.Control
-                    type="text"
-                    value={inputVal}
-                    onChange={(e) => setInputVal(e.target.value)}
-                    placeholder={`Ask about ${props.applicant_name_first}...`}
-                    style={{
-                        width: '50%',
-                        borderRadius: '8px',
-                    }}
-                />
+                <Row className="w-100 justify-content-center px-3">
+                    <Col xs={12} sm={10} md={8} lg={6}>
+                        <Form.Group controlId="questionInput">
+                            <Form.Control
+                                type="text"
+                                value={inputVal}
+                                onChange={(e) => {
+                                    setInputVal(e.target.value);
+                                    if (showError && e.target.value.length >= 45) {
+                                        setShowError(false);
+                                    }
+                                }}
+                                placeholder={`Ask about ${props.applicant_name_first}...`}
+                                isInvalid={showError}
+                                maxLength={1000}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        e.preventDefault();
+                                        submitQuestion();
+                                    }
+                                }}
+                                style={{
+                                    borderRadius: '8px',
+                                }}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Please enter at least 45 characters.
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </Col>
+                </Row>
                 : <CenteredSpinner />}
         </Container>
     )

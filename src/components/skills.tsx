@@ -1,4 +1,4 @@
-import { Card, Col, Row } from "react-bootstrap"
+import { Card, Col, Row, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
@@ -8,7 +8,7 @@ interface Skill {
   skill_name: string,
   skill_description: string,
   years_of_experience: number,
-  skill_logo:string,
+  skill_logo: string,
 }
 export const Skills = () => {
   const [skills, setSkills] = useState<Skill[] | null>(null)
@@ -33,9 +33,12 @@ export const Skills = () => {
             {skills.map(function (skill: Skill) {
               return (
                 <Col className="pb-3" key={skill.id}>
-                  <Card.Img variant="top" style={{ maxHeight: '40px', maxWidth: '40px' }} src={skill.skill_logo} />
-                  <Card.Text style={{ fontSize: '12px' }}>
-                    {skill.skill_name}</Card.Text>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>{skill.skill_name}</Tooltip>}
+                  >
+                    <Card.Img variant="top" style={{ maxHeight: '40px', maxWidth: '40px' }} src={skill.skill_logo} />
+                  </OverlayTrigger>
                 </Col>
               )
             })}
