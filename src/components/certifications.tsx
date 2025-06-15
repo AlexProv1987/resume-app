@@ -15,7 +15,6 @@ export const Certifications = () => {
     useEffect(() => {
         axiosBaseURL.get(`details/certifications/?applicant=${applicant}`)
             .then(function (response) {
-                console.log(response.data)
                 setCertifications(response.data)
             })
             .catch(function (error) {

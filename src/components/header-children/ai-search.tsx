@@ -10,7 +10,6 @@ interface SearchCompProps {
 //we need to check device for width needs to be 100% on mobile
 export const SearchComponent = (props: SearchCompProps) => {
     const [inputVal, setInputVal] = useState<string>('')
-    console.log(props)
     return (
         <Container
             fluid

@@ -22,11 +22,11 @@ function App() {
       <Header />
       <Container style={{ flex: 1, marginTop: '2rem' }}>
         <Row className='justify-content-center'>
-          <Col md={8} >
+          <Col lg={8} >
             <JobHistory />
             <Projects />
           </Col>
-          <Col md={4}>
+          <Col lg={4}>
             <Certifications />
             <Skills />
             <EducationHistory />

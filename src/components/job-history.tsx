@@ -1,9 +1,9 @@
-import { Card, Container, Nav, Tab, Tabs } from "react-bootstrap"
-import { useEffect, useState } from "react"
+import { Container, Fade, Row, Col } from "react-bootstrap"
+import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { ArrowRight } from 'react-bootstrap-icons';
+import { ArrowRight, ArrowLeft } from 'react-bootstrap-icons';
 interface JobDetails {
     id: string,
     order: number,
@@ -12,6 +12,7 @@ interface JobDetails {
 
 interface Job {
     id: string,
+    position: number,
     current_employer: boolean,
     from_date: string,
     to_date: Date,
@@ -22,8 +23,9 @@ interface Job {
 }
 
 export const JobHistory = () => {
-    const [key, setKey] = useState<string | null>(null);
-    const [jobs, setJobs] = useState<Job[] | null>(null)
+    const jobs = useRef<Job[] | null>(null)
+    const idx = useRef<number>(-1)
+    const [selectedJob, setSelectedJob] = useState<Job | null>(null)
 
     useEffect(() => {
         const fetchJobsWithDetails = async () => {
@@ -33,11 +35,12 @@ export const JobHistory = () => {
                 const response = await axiosBaseURL.get(`work/history/?applicant=${applicant}`);
                 const tmp: Job[] = response.data;
                 const detailedJobs = await Promise.all(
-                    tmp.map(async (job) => {
+                    tmp.map(async (job, index) => {
                         try {
                             const detailsRes = await axiosBaseURL.get(`/work/history_details/?work_id=${job.id}`);
                             return {
                                 ...job,
+                                position: index,
                                 details: detailsRes.data,
                             };
                         } catch (error) {
@@ -46,8 +49,10 @@ export const JobHistory = () => {
                         }
                     })
                 );
-                setJobs(detailedJobs);
-                setKey(detailedJobs[0].employer_name)
+                jobs.current = detailedJobs;
+                idx.current = 0
+                setSelectedJob(jobs.current[idx.current]);
+
             } catch (error) {
                 console.error('Error fetching work history:', error);
             }
@@ -55,24 +60,56 @@ export const JobHistory = () => {
         fetchJobsWithDetails()
     }, []);
 
+    const updateIndex = (direction: 'up' | 'down') => {
+        let tmpIdx;
+        const arryLength = jobs.current?.length ? jobs.current.length : 0
+        switch (direction) {
+            case 'up':
+                tmpIdx = idx.current + 1
+                if (arryLength <= tmpIdx) {
+                    return;
+                }
+                idx.current += 1
+                setSelectedJob(jobs?.current ? jobs.current[idx.current] : null)
+                break;
+            case 'down':
+                tmpIdx = idx.current - 1
+                if (tmpIdx <= -1) {
+                    return;
+                }
+                idx.current -= 1
+                setSelectedJob(jobs?.current ? jobs.current[idx.current] : null)
+                break;
+            default:
+                break;
+        }
+    }
+
     return (
         <Container>
-            <Nav fill variant="tabs" activeKey={key ? key : 'Loading..'}>
-                {jobs ?
-                    <>
-                        {jobs.map(function (job: Job) {
+            {selectedJob ?
+                <>
+                    <Row className="border-bottom justify-content-around" style={{ width: '100%' }}>
+                        <Col className="text-start">
+                            <ArrowLeft color="royalblue" type='button' onClick={() => updateIndex('down')} size={35} />
+                        </Col>
+                        <Col className="text-center" style={{ alignSelf: 'center' }}>
+                            <h5>{selectedJob.employer_name}</h5>
+                        </Col>
+                        <Col className="text-end">
+                            <ArrowRight color="royalblue" type='button' onClick={() => updateIndex('up')} size={35} />
+                        </Col>
+                    </Row>
+                    <Container>
+                        {selectedJob.details.map(function (details: JobDetails) {
                             return (
-                                <Nav.Item key={job.id}>
-                                    <Nav.Link eventKey={job.employer_name} onClick={() => setKey(job.employer_name)}>{job.employer_name} <span style={{ marginLeft: '2rem' }}><ArrowRight /></span></Nav.Link>
-                                </Nav.Item>
+                                <li key={details.id}>{details.work_detail_text}</li>
                             )
                         })}
-                    </>
-                    : <CenteredSpinner />
-                }
-            </Nav>
-            {key &&
-                <p>{key}</p>
+
+                    </Container>
+                </> :
+                <CenteredSpinner />
             }
         </Container>
     );
