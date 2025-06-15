@@ -1,4 +1,4 @@
-import { Container, Fade, Row, Col } from "react-bootstrap"
+import { Container, Fade, Row, Col, Card } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
@@ -26,6 +26,9 @@ export const JobHistory = () => {
     const jobs = useRef<Job[] | null>(null)
     const idx = useRef<number>(-1)
     const [selectedJob, setSelectedJob] = useState<Job | null>(null)
+
+    const canGoBack = idx.current > 0;
+    const canGoForward = jobs.current && idx.current < jobs.current.length - 1;
 
     useEffect(() => {
         const fetchJobsWithDetails = async () => {
@@ -61,56 +64,67 @@ export const JobHistory = () => {
     }, []);
 
     const updateIndex = (direction: 'up' | 'down') => {
-        let tmpIdx;
-        const arryLength = jobs.current?.length ? jobs.current.length : 0
         switch (direction) {
             case 'up':
-                tmpIdx = idx.current + 1
-                if (arryLength <= tmpIdx) {
-                    return;
-                }
                 idx.current += 1
                 setSelectedJob(jobs?.current ? jobs.current[idx.current] : null)
-                break;
+                return;
             case 'down':
-                tmpIdx = idx.current - 1
-                if (tmpIdx <= -1) {
-                    return;
-                }
                 idx.current -= 1
                 setSelectedJob(jobs?.current ? jobs.current[idx.current] : null)
-                break;
+                return;
             default:
-                break;
+                return;
         }
     }
 
     return (
         <Container>
-            {selectedJob ?
-                <>
-                    <Row className="border-bottom justify-content-around" style={{ width: '100%' }}>
+            <Card className="shadow justify-content-around" style={{ minHeight: '18rem', width: '100%' }}>
+                <Card.Header>
+                    <Row>
                         <Col className="text-start">
-                            <ArrowLeft color="royalblue" type='button' onClick={() => updateIndex('down')} size={35} />
+                            <ArrowLeft
+                                color={canGoBack ? "royalblue" : "lightgray"}
+                                type="button"
+                                size={35}
+                                onClick={() => {
+                                    if (canGoBack) updateIndex('down');
+                                }}
+                                style={{ cursor: canGoBack ? 'pointer' : 'not-allowed' }}
+                            />
                         </Col>
                         <Col className="text-center" style={{ alignSelf: 'center' }}>
-                            <h5>{selectedJob.employer_name}</h5>
+                            <h5>{selectedJob ? selectedJob.employer_name : 'Job History'}</h5>
                         </Col>
                         <Col className="text-end">
-                            <ArrowRight color="royalblue" type='button' onClick={() => updateIndex('up')} size={35} />
+                            <ArrowRight
+                                color={canGoForward ? "royalblue" : "lightgray"}
+                                type="button"
+                                size={35}
+                                onClick={() => {
+                                    if (canGoForward) updateIndex('up');
+                                }}
+                                style={{ cursor: canGoForward ? 'pointer' : 'not-allowed' }}
+                            />
                         </Col>
                     </Row>
-                    <Container>
-                        {selectedJob.details.map(function (details: JobDetails) {
-                            return (
-                                <li key={details.id}>{details.work_detail_text}</li>
-                            )
-                        })}
-
-                    </Container>
-                </> :
-                <CenteredSpinner />
-            }
+                </Card.Header>
+                {selectedJob ?
+                    <Card.Body>
+                        <Card.Text>
+                            {selectedJob.employer_name}
+                            {selectedJob.details.map(function (details: JobDetails) {
+                                return (
+                                    <li key={details.id}>{details.work_detail_text}</li>
+                                )
+                            })}
+                        </Card.Text>
+                    </Card.Body>
+                    :
+                    <CenteredSpinner />
+                }
+            </Card>
         </Container>
     );
 }

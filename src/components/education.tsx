@@ -27,7 +27,7 @@ export const EducationHistory = () => {
   }, []);
 
   return (
-    <Card style={{ width: '20rem', marginBottom: '1rem' }}>
+    <Card className="shadow" style={{ width: '20rem', marginBottom: '1rem' }}>
       <Card.Header>Education</Card.Header>
       {education ?
         <Card.Body>

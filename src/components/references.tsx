@@ -21,7 +21,7 @@ export const References = () => {
   }, []);
 
   return (
-    <Card style={{ width: '20rem', marginBottom: '1rem' }}>
+    <Card className="shadow" style={{ width: '20rem', marginBottom: '1rem' }}>
       <Card.Header>References</Card.Header>
       {references ?
         <Card.Body>

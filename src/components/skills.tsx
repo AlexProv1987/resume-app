@@ -24,7 +24,7 @@ export const Skills = () => {
   }, []);
   //check if mobile for width
   return (
-    <Card style={{ width: '20rem', marginBottom: '1rem' }}>
+    <Card className="shadow" style={{ width: '20rem', marginBottom: '1rem' }}>
       <Card.Header>Skills</Card.Header>
       {skills ?
         <Card.Body>
