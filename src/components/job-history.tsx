@@ -1,10 +1,11 @@
-import { Card, Carousel, Container } from "react-bootstrap"
+import { Card, Carousel, Nav, Tab, Tabs } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
+import { ArrowRight } from 'react-bootstrap-icons';
 interface JobDetails {
-    id:string,
+    id: string,
     order: number,
     work_detail_text: string,
 }
@@ -21,7 +22,7 @@ interface Job {
 }
 
 export const JobHistory = () => {
-
+    const [key, setKey] = useState<string | null>(null);
     const [jobs, setJobs] = useState<Job[] | null>(null)
 
     useEffect(() => {
@@ -46,6 +47,7 @@ export const JobHistory = () => {
                     })
                 );
                 setJobs(detailedJobs);
+                setKey(detailedJobs[0].employer_name)
             } catch (error) {
                 console.error('Error fetching work history:', error);
             }
@@ -54,27 +56,20 @@ export const JobHistory = () => {
     }, []);
 
     return (
-        <Card style={{ marginBottom: '1rem' }}>
-            {jobs ?
-                <Carousel interval={null} variant="dark" style={{ minHeight: '200px' }}>
-                    {jobs.map(function (job: Job) {
+        <Nav fill variant="tabs" activeKey={key ? key : 'Loading..'}>
+            {key && jobs ?
+                <>
+                    {jobs.map(function (job:Job) {
                         return (
-                            <Carousel.Item key={job.id} style={{marginBottom:'3rem'}}>
-                                <Container style={{ display: 'flex', flexDirection: 'column', maxWidth: '600px', }}>
-                                    <h5>{`${job.employer_name} - ${job.job_title}`}</h5> 
-                                    {job.details.map(function (details: JobDetails) {
-                                        return (
-                                            <li key={details.id}>{details.work_detail_text}</li>
-                                        )
-                                    })}
-                                </Container>
-                            </Carousel.Item>
+                            <Nav.Item key={job.id}>
+                                <Nav.Link eventKey={job.employer_name} onClick={() => setKey(job.employer_name)}>{job.employer_name} <span style={{ marginLeft: '2rem' }}><ArrowRight /></span></Nav.Link>
+                            </Nav.Item>
                         )
                     })}
-                </Carousel>
-                :
-                <CenteredSpinner />
+                </>
+                : <CenteredSpinner />
             }
-        </Card>
+
+        </Nav>
     );
 }

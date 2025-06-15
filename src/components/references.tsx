@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
-import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
+import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
 interface Reference {
   id: number,

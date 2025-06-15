@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
-import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
+import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
 interface Education {
   id: number,
@@ -12,7 +12,7 @@ interface Education {
   to_date: string,
   name: string,
 }
-export const Education = () => {
+export const EducationHistory = () => {
 
   const [education, setEducation] = useState<Education[] | null>(null)
 
@@ -36,7 +36,7 @@ export const Education = () => {
               <div className="border-bottom pb-1" key={education.id}>
                 <Card.Text>{education.name}</Card.Text>
                 <Card.Text>{education.area_of_study}</Card.Text>
-                <Card.Text>{`${education.from_date} ${education.to_date}`}</Card.Text>
+                <Card.Text>{`${education.from_date} - ${education.to_date}`}</Card.Text>
               </div>
             )
           })

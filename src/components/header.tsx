@@ -1,8 +1,9 @@
-import { Col, Container, Row, Navbar, Button, Image } from "react-bootstrap"
+import { Col, Container, Row, Image } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
+import { CenteredSpinner } from "./common/centered-spinner"
 
 interface User {
     first_name: string,
@@ -38,8 +39,9 @@ export const Header = () => {
                 applicant_id={applicant}
                 applicant_name_first={`${applicantData?.user_reltn.first_name}`}
                 banner_img={applicantData?.banner_img ? applicantData.banner_img : defaultBannerImg}
-            />
+            /> 
             <Container>
+                {applicantData ? 
                 <Row className="text-center" style={{ paddingTop: '50px', }}>
                     <Col xs={12} md={2}>
                         <Image
@@ -52,6 +54,9 @@ export const Header = () => {
                         {applicantData?.applicant_bio}
                     </Col>
                 </Row>
+                : 
+                <CenteredSpinner/>
+                }
             </Container>
 
         </Container>

@@ -5,7 +5,7 @@ import { applicant } from "../common/constants"
 import { SocialIcon } from "react-social-icons"
 import { CenteredSpinner } from "./common/centered-spinner"
 interface ProjectDetails {
-    id:string,
+    id: string,
     detail_img: string,
     detail_text: string,
 }
@@ -20,7 +20,7 @@ interface Project {
 }
 
 export const Projects = () => {
-    const [projects,setProjects] = useState<Project[] | null >(null)
+    const [projects, setProjects] = useState<Project[] | null>(null)
 
     useEffect(() => {
         const fetchProjectsWithDetails = async () => {
@@ -44,7 +44,6 @@ export const Projects = () => {
                     })
                 );
                 setProjects(detailedProjects)
-                console.log(detailedProjects)
             } catch (error) {
                 console.error('Error fetching projects:', error);
             }
@@ -58,12 +57,14 @@ export const Projects = () => {
                 <Carousel interval={null} variant="dark" style={{ minHeight: '200px' }}>
                     {projects.map(function (project: Project) {
                         return (
-                            <Carousel.Item key={project.id} style={{marginBottom:'3rem'}}>
+                            <Carousel.Item key={project.id} style={{ marginBottom: '3rem' }}>
                                 <Container style={{ display: 'flex', flexDirection: 'column', maxWidth: '600px', }}>
                                     <h5>
-                                        {project.source_control_url && <a href={project.source_control_url}> <SocialIcon network='github'/></a>} 
+                                        {project.source_control_url &&
+                                            <SocialIcon network='github' />
+                                        }
                                         {project.name}
-                                    </h5> 
+                                    </h5>
                                     {project.details.map(function (details: ProjectDetails) {
                                         return (
                                             <li key={details.id}>{details.detail_text}</li>

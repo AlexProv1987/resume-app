@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
-import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
+import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
 interface Skill {
   id: string,
@@ -31,7 +31,7 @@ export const Skills = () => {
           {skills.map(function (skill: Skill) {
             return (
               <div className="border-bottom pb-1" key={skill.id}>
-                <Card.Text>{`Name: ${skill.skill_name}`}</Card.Text>
+                <Card.Text>{skill.skill_name}</Card.Text>
                 <Card.Text>{`Experience: ${skill.years_of_experience} Years.`}</Card.Text>
               </div>
             )
