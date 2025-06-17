@@ -1,33 +1,50 @@
 import { useRef, useState } from "react";
-import { Modal, Button, Form, ModalBody, Alert } from "react-bootstrap";
-import { Star, StarFill, ChatDots, PencilFill, ChatLeftDots, ChatText } from "react-bootstrap-icons";
+import { Modal, Button, Form, ModalBody, Alert, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Star, StarFill, ChatText, InfoCircle } from "react-bootstrap-icons";
 import Rating from "react-rating";
 import { applicant } from "../common/constants";
-
+import { axiosBaseURL } from "../http";
 
 export function FeedbackModalButton() {
-
     const [show, setShow] = useState<boolean>(false)
     const [rating, setRating] = useState<number>(0)
     const [comment, setComment] = useState<string>("")
+    const [alertMsg,setAlertMsg] = useState<string | null>(null)
+    const [alertVariant,setAlertVariant] = useState<string>('success')
 
     const didSubmit = useRef<boolean>(false)
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log({ rating, comment })
-        didSubmit.current = true
-        setShow(false)
-        setRating(0)
-        setComment("")
+        axiosBaseURL.post('feedback/create/',
+            { applicant_reltn: applicant, rating: rating, comment: comment }
+        ).then(function (response) {
+            didSubmit.current = true
+            setShow(false)
+            setRating(0)
+            setComment("")
+            setAlertMsg('Thank you for your Feedback!')
+            setAlertVariant('success')
+        }).catch(function (error) {
+            if(error.status === 400 || error.status === 429 ){
+                didSubmit.current = true
+                setAlertMsg(error.response.data.error)
+                setAlertVariant('warning')
+            }else{
+                setAlertMsg('It appears something has catastrophically broke...')
+                setAlertVariant('danger')
+            }
+        }).finally(function () {
+            setShow(!show)
+        })
     };
 
     return (
         <>
-            {didSubmit.current &&
+            {alertMsg &&
                 <Alert
                     dismissible
-                    variant="success"
+                    variant={alertVariant}
                     style={{
                         position: "fixed",
                         top: "0",
@@ -37,7 +54,7 @@ export function FeedbackModalButton() {
                         borderRadius: 0,
                     }}
                 >
-                Feedback Submitted! Thank You!
+                    {alertMsg}
                 </Alert>
             }
             <Button
@@ -77,7 +94,14 @@ export function FeedbackModalButton() {
                                 />
                             </div>
                             <Form.Group>
-                                <Form.Label>Comment (optional)</Form.Label>
+                                <Form.Label>
+                                    Comment
+                                    <OverlayTrigger
+                                        placement="right"
+                                        overlay={<Tooltip>Optional field — leave blank if not applicable</Tooltip>}>
+                                        <InfoCircle className="text-muted" style={{ cursor: 'pointer', marginLeft: '2px' }} />
+                                    </OverlayTrigger>
+                                </Form.Label>
                                 <Form.Control
                                     disabled={didSubmit.current ? true : false}
                                     as="textarea"

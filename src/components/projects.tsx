@@ -1,10 +1,10 @@
-import { Card, Carousel, Container, Col, Button, Modal, Row } from "react-bootstrap"
+import { Card, Container, Col, Button, Modal, Row } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { ArrowRight, ArrowLeft, Github, Youtube, Git } from 'react-bootstrap-icons';
 import { CenteredSpinner } from "./common/centered-spinner"
-import { isMobile } from "react-device-detect";
+
 interface ProjectDetails {
     id: string,
     detail_img: string,
@@ -56,7 +56,6 @@ export const Projects = () => {
                         }
                     })
                 );
-                console.log(detailedProjects)
                 setProjects(detailedProjects)
             } catch (error) {
                 console.error('Error fetching projects:', error);

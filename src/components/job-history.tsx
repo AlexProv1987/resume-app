@@ -1,4 +1,4 @@
-import { Container, Fade, Row, Col, Card, ListGroup } from "react-bootstrap"
+import { Container, Row, Col, Card, ListGroup } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"

@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import './App.css';
 import { Header } from './components/header';
 import { JobHistory } from './components/job-history';
@@ -22,13 +22,13 @@ function App() {
       margin: 0,
     }}>
       <Header />
-      <Container style={{ flex: 1, marginTop: '2rem' }}>
-        <Row className='justify-content-center'>
-          <Col lg={8} >
+      <Container style={{ flex: 1, marginTop: '2rem',}}>
+        <Row>
+          <Col lg={8}>
             <JobHistory />
             <Projects />
           </Col>
-          <Col className={isMobile ? 'd-flex flex-column align-items-center' : ''} lg={4} xs={12} md={6}>
+          <Col lg={4} className='d-flex flex-column align-items-end'>
             <Certifications />
             <Skills />
             <EducationHistory />

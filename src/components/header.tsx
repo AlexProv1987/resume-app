@@ -1,5 +1,5 @@
-import { Col, Container, Row, Image, Navbar, Alert, OverlayTrigger, Tooltip } from "react-bootstrap"
-import { useEffect, useState } from "react"
+import { Col, Container, Row, Image, Navbar, OverlayTrigger, Tooltip, Alert } from "react-bootstrap"
+import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
@@ -23,11 +23,12 @@ interface ApplicantRecord {
 
 export const Header = () => {
     const [applicantData, setApplicantData] = useState<ApplicantRecord | null>(null)
+    const [alertMsg, setAlertMsg] = useState<string | null>(null)
+    const [hasResume,setHasResume] = useState<boolean>(false)
 
     useEffect(() => {
         axiosBaseURL.get(`applicant/get_applicant/${applicant}`)
             .then(function (response) {
-                console.log(response.data)
                 setApplicantData(response.data)
             })
             .catch(function (error) {
@@ -35,16 +36,46 @@ export const Header = () => {
             });
     }, []);
 
-    const requestContact = () => {
-        alert('well do modal here for contact info')
-    }
-
-    const submitBug = () => {
-        alert('Might make some meme here prob not')
+    const getResume = () => {
+        if(hasResume){
+            return;
+        }
+        axiosBaseURL
+            .get(`applicant/get_resume/${applicant}`, {
+                responseType: 'blob',
+            })
+            .then((response) => {
+                setHasResume(true)
+                const file = new Blob([response.data], { type: 'application/pdf' });
+                const fileURL = URL.createObjectURL(file);
+                const link = document.createElement('a');
+                link.href = fileURL;
+                link.download = 'resume.pdf';
+                link.click();
+            })
+            .catch((error) => {
+                console.error('Error Getting Resume:', error);
+            });
     }
 
     return (
         <Container fluid='true'>
+            {alertMsg &&
+                <Alert
+                    dismissible
+                    variant="danger"
+                    style={{
+                        position: "fixed",
+                        top: "0",
+                        left: "0",
+                        width: "100%",
+                        zIndex: 1060,
+                        borderRadius: 0,
+                    }}
+                >
+                    {alertMsg}
+                </Alert>
+            }
             <Navbar className="navbar-dark bg-dark" style={{ position: 'relative', overflow: 'hidden' }}>
                 <Container fluid>
                     <Navbar.Brand>
@@ -53,8 +84,8 @@ export const Header = () => {
                     <Navbar.Collapse className="justify-content-end">
                         <OverlayTrigger
                             placement="left"
-                            overlay={<Tooltip>Download Resume.</Tooltip>}>
-                            <Navbar.Text style={{ cursor: 'pointer' }} onClick={() => submitBug()}>
+                            overlay={<Tooltip>{hasResume ? "You already have this resume." : "Download Resume."}</Tooltip>}>
+                            <Navbar.Text  style={{ cursor: hasResume ? 'not-allowed' : 'pointer' }} onClick={() => getResume()}>
                                 <Download size={24} color='royalblue' />
                             </Navbar.Text>
                         </OverlayTrigger>
