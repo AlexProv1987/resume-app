@@ -4,12 +4,14 @@ import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
 import { BookmarkPlus } from 'react-bootstrap-icons';
+import { isMobile } from "react-device-detect"
 
 interface Certification {
     id: number,
     attained_on: string,
     name: string,
 }
+
 export const Certifications = () => {
 
     const [certifications, setCertifications] = useState<Certification[] | null>(null)
@@ -17,15 +19,19 @@ export const Certifications = () => {
     useEffect(() => {
         axiosBaseURL.get(`details/certifications/?applicant=${applicant}`)
             .then(function (response) {
-                setCertifications(response.data)
+                setCertifications(response.data);
             })
             .catch(function (error) {
                 console.error(`Error Fetching certifications: ${error}`)
             });
     }, []);
 
+    if (certifications && certifications.length === 0) {
+        return null;
+    }
+
     return (
-        <Card className="shadow" style={{ width: '20rem', marginBottom: '1rem' }}>
+        <Card className="shadow" style={{ width: `${isMobile ? '90%' : '20rem'}`, marginBottom: '1rem' }}>
             <Card.Header>Certifications</Card.Header>
             {certifications ?
                 <Card.Body>

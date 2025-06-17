@@ -2,8 +2,9 @@ import { Card, Carousel, Container, Col, Button, Modal, Row } from "react-bootst
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
-import { ArrowRight, ArrowLeft } from 'react-bootstrap-icons';
+import { ArrowRight, ArrowLeft, Github, Youtube, Git } from 'react-bootstrap-icons';
 import { CenteredSpinner } from "./common/centered-spinner"
+import { isMobile } from "react-device-detect";
 interface ProjectDetails {
     id: string,
     detail_img: string,
@@ -13,10 +14,11 @@ interface ProjectDetails {
 interface Project {
     index: number,
     id: string,
-    demo_url: boolean,
+    demo_url: string,
+    video_url: string,
+    source_control_url: string,
     description: string,
     name: string,
-    source_control_url: string,
     details: ProjectDetails[],
 }
 
@@ -27,7 +29,7 @@ export const Projects = () => {
     const selectedItem = useRef<Project | null>(null)
 
     //opting to create some custom pagination b/c fk caoursel jankery
-    const ITEMS_PER_PAGE = 2;
+    const ITEMS_PER_PAGE = 1;
     const canGoBack = projectStartIndex > 0;
     const canGoForward = projects && projectStartIndex + ITEMS_PER_PAGE < projects.length;
     const paginatedProjects = projects?.slice(projectStartIndex, projectStartIndex + ITEMS_PER_PAGE);
@@ -54,6 +56,7 @@ export const Projects = () => {
                         }
                     })
                 );
+                console.log(detailedProjects)
                 setProjects(detailedProjects)
             } catch (error) {
                 console.error('Error fetching projects:', error);
@@ -62,13 +65,15 @@ export const Projects = () => {
         fetchProjectsWithDetails()
     }, []);
 
+
     const handleShow = (item: Project | null) => {
         selectedItem.current = item
         setShow(!show)
     }
 
+
     return (
-        <Container style={{ marginTop: '3rem', marginBottom:'2rem' }}>
+        <Container style={{ marginTop: '3rem', marginBottom: '2rem' }}>
             <Card className="shadow justify-content-around" style={{ minHeight: '16rem', width: '100%' }}>
                 <Card.Header>
                     <Row>
@@ -107,14 +112,33 @@ export const Projects = () => {
                 {projects ? (
                     <Row className="m-3">
                         {paginatedProjects?.map((project: Project) => (
-                            <Col lg={6} key={project.id}>
-                                <Card className="shadow" style={{ minHeight: '18rem'}}>
-                                    <Card.Header>{project.name}</Card.Header>
+                            <Col className="mb-2 d-flex" key={project.id}>
+                                <Card className="shadow" style={{ minHeight: '18rem' }}>
+                                    <Card.Header><h5 style={{font:'helvetica' }}>{project.name}</h5></Card.Header>
                                     <Card.Body>
                                         <Card.Text>{project.description}</Card.Text>
                                     </Card.Body>
                                     <Card.Footer className="text-end">
-                                        <Button onClick={() => handleShow(project)}>Details</Button>
+                                        <a target="_blank"
+                                            rel='noreferrer'
+                                            style={{ cursor: `${project.source_control_url ? 'pointer' : 'not-allowed'}`}}
+                                            href={project.source_control_url}
+                                        >
+                                            <Github size={26} className="m-1" color={project.source_control_url ? "black" : "lightgray"} />
+                                        </a>
+                                        <a target="_blank"
+                                            rel='noreferrer'
+                                            style={{ cursor: `${project.video_url ? 'pointer' : 'not-allowed'}` }}
+                                            href={project.video_url}>
+                                            <Youtube size={26} className="m-1" color={project.video_url ? "red" : "lightgray"} />
+                                        </a>
+                                        <a target="_blank"
+                                            rel='noreferrer'
+                                            style={{ cursor: `${project.demo_url ? 'pointer' : 'not-allowed'}` }}
+                                            href={project.demo_url}
+                                        >
+                                            <Git size={26} className="m-1" color={project.demo_url ? "royalblue" : "lightgray"} />
+                                        </a>
                                     </Card.Footer>
                                 </Card>
                             </Col>
@@ -126,21 +150,22 @@ export const Projects = () => {
             </Card>
 
             <Modal show={show} onHide={() => handleShow(null)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{selectedItem.current?.name}</Modal.Title>
+                <Modal.Header className="bg-light" closeButton>
+                    <Modal.Title >{selectedItem.current?.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>Source Control: {selectedItem.current?.source_control_url}</p>
                     {selectedItem.current?.details.map((details: ProjectDetails) => (
                         <li key={details.id}>{details.detail_text}</li>
                     ))}
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => handleShow(null)}>
+                <Modal.Footer className="bg-light">
+                    <Button className="btn-sm" variant="danger" onClick={() => handleShow(null)}>
                         Close
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+
         </Container>
     );
 }

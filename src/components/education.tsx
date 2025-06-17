@@ -4,6 +4,7 @@ import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
 import { Mortarboard } from 'react-bootstrap-icons';
+import { isMobile } from "react-device-detect"
 interface Education {
   id: number,
   area_of_study: string,
@@ -28,7 +29,7 @@ export const EducationHistory = () => {
   }, []);
 
   return (
-    <Card className="shadow" style={{ width: '20rem', marginBottom: '1rem' }}>
+    <Card className="shadow" style={{ width:`${isMobile ? '90%': '20rem'}`, marginBottom: '1rem' }}>
       <Card.Header>Education</Card.Header>
       {education ?
         <Card.Body>

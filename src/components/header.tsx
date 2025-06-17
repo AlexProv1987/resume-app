@@ -1,10 +1,10 @@
-import { Col, Container, Row, Image, Navbar, Alert } from "react-bootstrap"
+import { Col, Container, Row, Image, Navbar, Alert, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { Braces, Bug } from "react-bootstrap-icons"
+import { Download } from "react-bootstrap-icons"
 
 interface User {
     first_name: string,
@@ -48,19 +48,16 @@ export const Header = () => {
             <Navbar className="navbar-dark bg-dark" style={{ position: 'relative', overflow: 'hidden' }}>
                 <Container fluid>
                     <Navbar.Brand>
-                        <span style={{ color: 'royalblue', fontFamily: 'monospace', fontSize: '1rem' }}>
-                            {'{'} <span
-                                style={{ color: 'white', cursor: 'pointer' }}
-                                onClick={applicantData ? () => requestContact() : () => { }}>
-                                {applicantData ? `Contact: ${applicantData.user_reltn.first_name} ${applicantData.user_reltn.last_name}` : 'Loading...'}
-                            </span> {'}'}
-                        </span>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
-                        <Navbar.Text style={{ cursor: 'pointer' }} onClick={() => submitBug()}>
-                            <Bug size={24} color='royalblue' />
-                        </Navbar.Text>
+                        <OverlayTrigger
+                            placement="left"
+                            overlay={<Tooltip>Download Resume.</Tooltip>}>
+                            <Navbar.Text style={{ cursor: 'pointer' }} onClick={() => submitBug()}>
+                                <Download size={24} color='royalblue' />
+                            </Navbar.Text>
+                        </OverlayTrigger>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
@@ -79,8 +76,8 @@ export const Header = () => {
                                 fluid
                             />
                         </Col>
-                        <Col xs={12} md={10} style={{ marginTop: '20px', marginBottom: '50px' }}>
-                            {applicantData?.applicant_bio}
+                        <Col className="text-left" xs={12} md={10} style={{ marginTop: '20px', marginBottom: '50px' }}>
+                            <p style={{ textAlign: 'left', whiteSpace: 'pre-line' }}>{applicantData?.applicant_bio}</p>
                         </Col>
                     </Row>
                     :
@@ -91,3 +88,14 @@ export const Header = () => {
         </Container>
     );
 }
+
+/**
+ * 
+ * <span style={{ color: 'royalblue', fontFamily: 'monospace', fontSize: '1rem' }}>
+                            {'{'} <span
+                                style={{ color: 'white', cursor: 'pointer' }}
+                                onClick={applicantData ? () => requestContact() : () => { }}>
+                                {applicantData ? `Contact: ${applicantData.user_reltn.first_name} ${applicantData.user_reltn.last_name}` : 'Loading...'}
+                            </span> {'}'}
+                        </span>
+ */

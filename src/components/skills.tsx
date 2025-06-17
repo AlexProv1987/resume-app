@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
+import { isMobile } from "react-device-detect"
 interface Skill {
   id: string,
   skill_name: string,
@@ -25,7 +26,7 @@ export const Skills = () => {
   }, []);
   //check if mobile for width
   return (
-    <Card className="shadow" style={{ width: '20rem', marginBottom: '1rem' }}>
+    <Card className="shadow" style={{ width:`${isMobile ? '90%': '20rem'}`, marginBottom: '1rem' }}>
       <Card.Header>Skills</Card.Header>
       {skills ?
         <Card.Body>
@@ -35,7 +36,7 @@ export const Skills = () => {
                 <Col className="pb-3" key={skill.id}>
                   <OverlayTrigger
                     placement="top"
-                    overlay={<Tooltip>{skill.skill_name}</Tooltip>}
+                    overlay={<Tooltip>{skill.skill_name} - {skill.years_of_experience} Yrs. Experience</Tooltip>}
                   >
                     <Card.Img variant="top" style={{ maxHeight: '40px', maxWidth: '40px' }} src={skill.skill_logo} />
                   </OverlayTrigger>
