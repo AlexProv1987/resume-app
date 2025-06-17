@@ -8,11 +8,17 @@ import { References } from './components/references';
 import { Projects } from './components/projects';
 import { Certifications } from './components/certifications';
 import { Footer } from './components/footer';
-import { isMobile } from 'react-device-detect';
 import { FeedbackModalButton } from './components/feedback';
+import { useEffect } from 'react';
+import { useResponsiveIsMobile } from './hooks/mobile_hook';
 
 function App() {
+  const isMobile = useResponsiveIsMobile();
   console.log('app render')
+      useEffect(() => {
+    
+      }, [isMobile]);
+
   return (
     <Container className='bg-light' fluid style={{
       display: 'flex',
@@ -28,7 +34,7 @@ function App() {
             <JobHistory />
             <Projects />
           </Col>
-          <Col lg={4} className='d-flex flex-column align-items-end'>
+          <Col lg={4} className={`d-flex flex-column ${isMobile ? 'align-items-center' : 'align-items-end'}`}>
             <Certifications />
             <Skills />
             <EducationHistory />
