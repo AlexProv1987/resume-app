@@ -19,49 +19,30 @@ interface Job {
     job_title: string,
     employer_name: string,
     order: number,
-    details: JobDetails[],
 }
 
+interface JobSet{
+    work:Job,
+    details:JobDetails[]
+}
 export const JobHistory = () => {
-    const jobs = useRef<Job[] | null>(null)
+    const jobs = useRef<JobSet[] | null>(null)
     const idx = useRef<number>(-1)
-    const [selectedJob, setSelectedJob] = useState<Job | null>(null)
-
+    const [selectedJob, setSelectedJob] = useState<JobSet | null>(null)
 
     const canGoBack = idx.current > 0;
     const canGoForward = jobs.current && idx.current < jobs.current.length - 1;
 
     useEffect(() => {
-        const fetchJobsWithDetails = async () => {
-            try {
-                //opting for await here over promise chaining to control execution more since
-                //we dont want to set the state var until we have gathered everything.
-                const response = await axiosBaseURL.get(`work/history/?applicant=${applicant}`);
-                const tmp: Job[] = response.data;
-                const detailedJobs = await Promise.all(
-                    tmp.map(async (job, index) => {
-                        try {
-                            const detailsRes = await axiosBaseURL.get(`/work/history_details/?work_id=${job.id}`);
-                            return {
-                                ...job,
-                                position: index,
-                                details: detailsRes.data,
-                            };
-                        } catch (error) {
-                            console.error(`Error fetching details for job ${job.id}`);
-                            return job;
-                        }
-                    })
-                );
-                jobs.current = detailedJobs;
-                idx.current = 0
-                setSelectedJob(jobs.current[idx.current]);
-
-            } catch (error) {
-                console.error('Error fetching work history:', error);
-            }
-        };
-        fetchJobsWithDetails()
+         axiosBaseURL.get(`work/history_set/?applicant=${applicant}`).then(function(response){
+            jobs.current = response.data;
+            idx.current = 0
+            jobs.current && setSelectedJob(jobs.current[idx.current])
+         }).catch(function(error){
+            console.error('Error fetching work history:', error);
+         }).finally(function(){
+            //..
+         })
     }, []);
 
     const updateIndex = (direction: 'up' | 'down') => {
@@ -127,17 +108,17 @@ export const JobHistory = () => {
                         <Card.Body>
                             <Row className="d-flex justify-content-between pb-2">
                                 <Col className="text-start" style={{ fontSize: '18px', fontWeight: 'bold', fontStyle: 'italic' }}>
-                                    {selectedJob.employer_name}
+                                    {selectedJob.work.employer_name}
                                 </Col>
                             </Row>
                             <Row className="d-flex justify-content-between pb-2">
                                 <Col className="text-start" style={{ fontSize: '16px', fontWeight: 'bold', fontStyle: 'italic' }}>
-                                    {selectedJob.job_title}
+                                    {selectedJob.work.job_title}
                                 </Col>
                             </Row>
                             <Row className="d-flex justify-content-between pb-2">
                                 <Col className="text-start" style={{ fontSize: '14px' }}>
-                                    {selectedJob.from_date} - {selectedJob.to_date ? selectedJob.to_date : 'Current'}
+                                    {selectedJob.work.from_date} - {selectedJob.work.to_date ? selectedJob.work.to_date : 'Current'}
                                 </Col>
                             </Row>
                             <ListGroup variant="flush">

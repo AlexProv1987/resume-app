@@ -19,14 +19,18 @@ interface Project {
     source_control_url: string,
     description: string,
     name: string,
+}
+
+interface ProjectSet {
+    project: Project,
     details: ProjectDetails[],
 }
 
 export const Projects = () => {
-    const [projects, setProjects] = useState<Project[] | null>(null)
+    const [projects, setProjects] = useState<ProjectSet[] | null>(null)
     const [show, setShow] = useState<boolean>(false)
     const [projectStartIndex, setProjectStartIndex] = useState(0);
-    const selectedItem = useRef<Project | null>(null)
+    const selectedItem = useRef<ProjectSet | null>(null)
 
     //opting to create some custom pagination b/c fk caoursel jankery
     const ITEMS_PER_PAGE = 1;
@@ -35,41 +39,21 @@ export const Projects = () => {
     const paginatedProjects = projects?.slice(projectStartIndex, projectStartIndex + ITEMS_PER_PAGE);
 
     useEffect(() => {
-        const fetchProjectsWithDetails = async () => {
-            try {
-                //opting for await here over promise chaining to control execution more since
-                //we dont want to set the state var until we have gathered everything.
-                const response = await axiosBaseURL.get(`projects/get_projects/?applicant=${applicant}`);
-                const tmp: Project[] = response.data;
-                const detailedProjects = await Promise.all(
-                    tmp.map(async (project: Project, idx) => {
-                        try {
-                            const detailsRes = await axiosBaseURL.get(`/projects/project_details/?project=${project.id}`);
-                            return {
-                                ...project,
-                                index: idx,
-                                details: detailsRes.data,
-                            };
-                        } catch (error) {
-                            console.error(`Error fetching details for project ${project.id}`);
-                            return project;
-                        }
-                    })
-                );
-                setProjects(detailedProjects)
-            } catch (error) {
-                console.error('Error fetching projects:', error);
-            }
-        };
-        fetchProjectsWithDetails()
+        axiosBaseURL.get(`projects/project_set/?applicant=${applicant}`).then(function (response) {
+            setProjects(response.data)
+        }).catch(function (error) {
+            console.error('Error fetching work history:', error);
+        }).finally(function () {
+            //..
+        })
     }, []);
 
-    const handleShow = (item: Project | null) => {
+    const handleShow = (item: ProjectSet | null) => {
         selectedItem.current = item
         setShow(!show)
     }
-    
-    if(projects && projects.length === 0){
+
+    if (projects && projects.length === 0) {
         return null;
     }
 
@@ -112,33 +96,33 @@ export const Projects = () => {
 
                 {projects ? (
                     <Row className="m-3">
-                        {paginatedProjects?.map((project: Project) => (
-                            <Col className="mb-2 d-flex" key={project.id}>
+                        {paginatedProjects?.map((project: ProjectSet) => (
+                            <Col className="mb-2 d-flex" key={project.project.id}>
                                 <Card className="shadow" style={{ minHeight: '18rem' }}>
-                                    <Card.Header><h5 style={{font:'helvetica' }}>{project.name}</h5></Card.Header>
+                                    <Card.Header><h5 style={{ font: 'helvetica' }}>{project.project.name}</h5></Card.Header>
                                     <Card.Body>
-                                        <Card.Text>{project.description}</Card.Text>
+                                        <Card.Text>{project.project.description}</Card.Text>
                                     </Card.Body>
                                     <Card.Footer className="text-end">
                                         <a target="_blank"
                                             rel='noreferrer'
-                                            style={{ cursor: `${project.source_control_url ? 'pointer' : 'not-allowed'}`}}
-                                            href={project.source_control_url}
+                                            style={{ cursor: `${project.project.source_control_url ? 'pointer' : 'not-allowed'}` }}
+                                            href={project.project.source_control_url}
                                         >
-                                            <Github size={26} className="m-1" color={project.source_control_url ? "black" : "lightgray"} />
+                                            <Github size={26} className="m-1" color={project.project.source_control_url ? "black" : "lightgray"} />
                                         </a>
                                         <a target="_blank"
                                             rel='noreferrer'
-                                            style={{ cursor: `${project.video_url ? 'pointer' : 'not-allowed'}` }}
-                                            href={project.video_url}>
-                                            <Youtube size={26} className="m-1" color={project.video_url ? "red" : "lightgray"} />
+                                            style={{ cursor: `${project.project.video_url ? 'pointer' : 'not-allowed'}` }}
+                                            href={project.project.video_url}>
+                                            <Youtube size={26} className="m-1" color={project.project.video_url ? "red" : "lightgray"} />
                                         </a>
                                         <a target="_blank"
                                             rel='noreferrer'
-                                            style={{ cursor: `${project.demo_url ? 'pointer' : 'not-allowed'}` }}
-                                            href={project.demo_url}
+                                            style={{ cursor: `${project.project.demo_url ? 'pointer' : 'not-allowed'}` }}
+                                            href={project.project.demo_url}
                                         >
-                                            <Git size={26} className="m-1" color={project.demo_url ? "royalblue" : "lightgray"} />
+                                            <Git size={26} className="m-1" color={project.project.demo_url ? "royalblue" : "lightgray"} />
                                         </a>
                                     </Card.Footer>
                                 </Card>
@@ -152,11 +136,11 @@ export const Projects = () => {
 
             <Modal show={show} onHide={() => handleShow(null)}>
                 <Modal.Header className="bg-light" closeButton>
-                    <Modal.Title >{selectedItem.current?.name}</Modal.Title>
+                    <Modal.Title >{selectedItem.current?.project.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {selectedItem.current?.details.map((details: ProjectDetails) => (
-                        <li key={details.id}>{details.detail_text}</li>
+                    {selectedItem.current?.details.map((detail: ProjectDetails) => (
+                        <li key={detail.id}>{detail.detail_text}</li>
                     ))}
                 </Modal.Body>
                 <Modal.Footer className="bg-light">
