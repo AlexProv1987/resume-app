@@ -115,10 +115,10 @@ export function FeedbackModalButton() {
                         </Modal.Body>
                         : <ModalBody>We Appreciate your feedback!</ModalBody>}
                     <Modal.Footer className="card-section-title">
-                        <Button variant="secondary" size="sm" onClick={() => setShow(false)}>
+                        <Button className="custom-cancel" variant="secondary" size="sm" onClick={() => setShow(false)}>
                             Cancel
                         </Button>
-                        <Button variant="primary" size="sm" type="submit" disabled={(rating === 0 || didSubmit.current)}>
+                        <Button className="custom-submit" size="sm" type="submit" disabled={(rating === 0 || didSubmit.current)}>
                             Submit
                         </Button>
                     </Modal.Footer>
