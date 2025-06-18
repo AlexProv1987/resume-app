@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { Form, Container, Row, Col } from "react-bootstrap"
+import { Form, Container, Row, Col, InputGroup } from "react-bootstrap"
 import { CenteredSpinner } from "../common/centered-spinner"
-
+import { axiosBaseURL } from "../../http"
+import { DownloadResume } from "./download_resume"
 interface SearchCompProps {
     applicant_id: string,
     applicant_name_first: string,
@@ -11,6 +12,7 @@ interface SearchCompProps {
 export const SearchComponent = (props: SearchCompProps) => {
     const [inputVal, setInputVal] = useState<string>('')
     const [showError, setShowError] = useState(false)
+
 
     const submitQuestion = () => {
         if (inputVal.length < 45) {
@@ -32,41 +34,46 @@ export const SearchComponent = (props: SearchCompProps) => {
                 backgroundSize: '100%',
                 backgroundRepeat: 'no-repeat',
                 display: 'flex',
+                flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
             {props.applicant_name_first !== 'undefined' ?
-                <Row className="w-100 justify-content-center px-3">
-                    <Col xs={12} sm={10} md={8} lg={6}>
-                        <Form.Group controlId="questionInput">
-                            <Form.Control
-                                type="text"
-                                value={inputVal}
-                                onChange={(e) => {
-                                    setInputVal(e.target.value);
-                                    if (showError && e.target.value.length >= 45) {
-                                        setShowError(false);
-                                    }
-                                }}
-                                placeholder={`Ask about ${props.applicant_name_first}...`}
-                                isInvalid={showError}
-                                maxLength={1000}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-                                        e.preventDefault();
-                                        submitQuestion();
-                                    }
-                                }}
-                                style={{
-                                    borderRadius: '8px',
-                                }}
-                            />
-                            <Form.Control.Feedback type="invalid">
-                                Please enter at least 45 characters.
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Col>
-                </Row>
+                <>
+                    <DownloadResume applicant={props.applicant_id} />
+                    <Row className="w-100 justify-content-center px-3">
+                        <Col xs={12} sm={10} md={8} lg={6}>
+                            <Form.Group controlId="questionInput">
+                                <Form.Control
+                                    className="ask-input"
+                                    type="text"
+                                    value={inputVal}
+                                    onChange={(e) => {
+                                        setInputVal(e.target.value);
+                                        if (showError && e.target.value.length >= 45) {
+                                            setShowError(false);
+                                        }
+                                    }}
+                                    placeholder={`Ask about ${props.applicant_name_first}...`}
+                                    isInvalid={showError}
+                                    maxLength={1000}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            submitQuestion();
+                                        }
+                                    }}
+                                    style={{
+                                        borderRadius: '8px',
+                                    }}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Please enter at least 45 characters.
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                </>
                 : <CenteredSpinner />}
         </Container>
     )

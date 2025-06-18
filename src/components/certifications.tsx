@@ -31,7 +31,7 @@ export const Certifications = () => {
     }
 
     return (
-        <Card className="shadow" style={{ width: `${isMobile ? '90%' : '20rem'}`, marginBottom: '1rem' }}>
+        <Card className="shadow card-accent green" style={{ width: `${isMobile ? '95%' : '20rem'}`, marginBottom: '1rem' }}>
             <Card.Header>Certifications</Card.Header>
             {certifications ?
                 <Card.Body>

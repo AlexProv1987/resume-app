@@ -1,9 +1,9 @@
-import { Container, Row, Col, Card, ListGroup } from "react-bootstrap"
+import { Container, Row, Col, Card, ListGroup, Button, OverlayTrigger, Tooltip, Fade } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { ArrowRight, ArrowLeft, Activity } from 'react-bootstrap-icons';
+import { ArrowRight, ArrowLeft, Activity, Briefcase } from 'react-bootstrap-icons';
 interface JobDetails {
     id: string,
     order: number,
@@ -26,6 +26,7 @@ export const JobHistory = () => {
     const jobs = useRef<Job[] | null>(null)
     const idx = useRef<number>(-1)
     const [selectedJob, setSelectedJob] = useState<Job | null>(null)
+
 
     const canGoBack = idx.current > 0;
     const canGoForward = jobs.current && idx.current < jobs.current.length - 1;
@@ -80,59 +81,76 @@ export const JobHistory = () => {
 
     return (
         <Container>
-            <Card className="shadow justify-content-around" style={{ minHeight: '18rem', width: '100%' }}>
-                <Card.Header>
+            <Card className="shadow justify-content-around card-carousel" style={{ minHeight: '18rem', width: '100%' }}>
+                <Card.Header className="card-section-title">
                     <Row>
                         <Col className="text-start">
-                            <ArrowLeft
-                                color={canGoBack ? "royalblue" : "lightgray"}
-                                type="button"
-                                size={35}
-                                onClick={() => {
-                                    if (canGoBack) updateIndex('down');
-                                }}
-                                style={{ cursor: canGoBack ? 'pointer' : 'not-allowed' }}
-                            />
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip>Previous Role</Tooltip>}
+                            >
+                                <span
+                                    role="button"
+                                    tabIndex={0}
+                                    className={`arrow-icon ${canGoBack ? 'clickable' : 'disabled'}`}
+                                    onClick={() => canGoBack && updateIndex('down')}
+                                    onKeyDown={(e) => e.key === 'Enter' && canGoBack && updateIndex('down')}
+                                >
+                                    <ArrowLeft size={35} />
+                                </span>
+                            </OverlayTrigger>
                         </Col>
+
                         <Col className="text-center" style={{ alignSelf: 'center' }}>
-                            <h5>{selectedJob ? selectedJob.employer_name : 'Job History'}</h5>
+                            <h5 className="section-title"><Briefcase className="me-1" />Employment</h5>
                         </Col>
+
                         <Col className="text-end">
-                            <ArrowRight
-                                color={canGoForward ? "royalblue" : "lightgray"}
-                                type="button"
-                                size={35}
-                                onClick={() => {
-                                    if (canGoForward) updateIndex('up');
-                                }}
-                                style={{ cursor: canGoForward ? 'pointer' : 'not-allowed' }}
-                            />
+                            <OverlayTrigger
+                                placement="top"
+                                overlay={<Tooltip>Next Role</Tooltip>}
+                            >
+                                <span
+                                    role="button"
+                                    tabIndex={0}
+                                    className={`arrow-icon ${canGoForward ? 'clickable' : 'disabled'}`}
+                                    onClick={() => canGoForward && updateIndex('up')}
+                                    onKeyDown={(e) => e.key === 'Enter' && canGoForward && updateIndex('up')}
+                                >
+                                    <ArrowRight size={35} />
+                                </span>
+                            </OverlayTrigger>
                         </Col>
                     </Row>
                 </Card.Header>
-                {selectedJob ?
-                    <Card.Body>
-                        <Row className="d-flex justify-content-between pb-2">
-                            <Col className="text-start" style={{fontSize:'18px', fontWeight:'bold', fontStyle:'italic'}}>
-                                {selectedJob.job_title}
-                            </Col>
-                        </Row>
-                         <Row className="d-flex justify-content-between pb-2">
-                            <Col className="text-start" style={{fontSize:'14px'}}>
-                                {selectedJob.from_date} - {selectedJob.to_date ? selectedJob.to_date : 'Current'}
-                            </Col>
-                        </Row>
+                    {selectedJob ?
+                        <Card.Body>
+                            <Row className="d-flex justify-content-between pb-2">
+                                <Col className="text-start" style={{ fontSize: '18px', fontWeight: 'bold', fontStyle: 'italic' }}>
+                                    {selectedJob.employer_name}
+                                </Col>
+                            </Row>
+                            <Row className="d-flex justify-content-between pb-2">
+                                <Col className="text-start" style={{ fontSize: '16px', fontWeight: 'bold', fontStyle: 'italic' }}>
+                                    {selectedJob.job_title}
+                                </Col>
+                            </Row>
+                            <Row className="d-flex justify-content-between pb-2">
+                                <Col className="text-start" style={{ fontSize: '14px' }}>
+                                    {selectedJob.from_date} - {selectedJob.to_date ? selectedJob.to_date : 'Current'}
+                                </Col>
+                            </Row>
                             <ListGroup variant="flush">
-                            {selectedJob.details.map(function (details: JobDetails) {
-                                return (
-                                    <ListGroup.Item action key={details.id}><span className="mr-2" ><Activity size={20} color='#BE406E'/></span> {details.work_detail_text}</ListGroup.Item>
-                                )
-                            })}
+                                {selectedJob.details.map(function (details: JobDetails) {
+                                    return (
+                                        <ListGroup.Item action key={details.id}><span className="mr-2" ><Activity size={20} color='#BE406E' /></span> {details.work_detail_text}</ListGroup.Item>
+                                    )
+                                })}
                             </ListGroup>
-                    </Card.Body>
-                    :
-                    <CenteredSpinner />
-                }
+                        </Card.Body>
+                        :
+                        <CenteredSpinner />
+                    }
             </Card>
         </Container>
     );

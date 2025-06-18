@@ -29,8 +29,8 @@ export const EducationHistory = () => {
   }, []);
 
   return (
-    <Card className="shadow" style={{ width:`${isMobile ? '90%': '20rem'}`, marginBottom: '1rem' }}>
-      <Card.Header>Education</Card.Header>
+    <Card className="shadow card-accent blue" style={{ width:`${isMobile ? '95%': '20rem'}`, marginBottom: '1rem' }}>
+      <Card.Header className="card-header">Education</Card.Header>
       {education ?
         <Card.Body>
           {education.map(function (education: Education) {

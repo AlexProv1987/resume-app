@@ -43,16 +43,178 @@
   top: 50%;
   transform: translateY(-50%);
   animation: walk-across 5s ease-in-out infinite alternate;
-  z-index: 1; /* Behind the text */
+  z-index: 1;
+  /* Behind the text */
 }
 
 @keyframes walk-across {
   0% {
     left: 0;
-    transform: translateY(-50%) scaleX(1); /* Facing right */
+    transform: translateY(-50%) scaleX(1);
+    /* Facing right */
   }
+
   100% {
     left: 100%;
-    transform: translateY(-50%) translateX(-100%) scaleX(-1); /* Flip horizontally */
+    transform: translateY(-50%) translateX(-100%) scaleX(-1);
+    /* Flip horizontally */
   }
+}
+
+.arrow-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  background-color: rgba(65, 105, 225, 0.1);
+}
+
+.arrow-icon.clickable {
+  color: royalblue;
+  cursor: pointer;
+}
+
+.arrow-icon.clickable:hover,
+.arrow-icon.clickable:focus {
+  transform: scale(1.15);
+  outline: none;
+}
+
+.arrow-icon.disabled {
+  color: lightgray;
+  cursor: not-allowed;
+}
+
+/*custom card*/
+.card-accent {
+  position: relative;
+  border: none;
+  box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+/*card themes css vars*/
+.card-accent.gold {
+  --accent-color: #FFD700;
+  --accent-rgb: 255, 215, 0;
+}
+
+.card-accent.green {
+  --accent-color: #28A745;
+  --accent-rgb: 40, 167, 69;
+}
+
+.card-accent.blue{
+  --accent-color: #1A73E8;
+  --accent-rgb: 26, 115, 232;
+}
+
+.card-accent.red {
+  --accent-color: #C0392B;
+  --accent-rgb: 192, 57, 43;
+}
+
+.card-accent.teal {
+  --accent-color: #17A2B8;
+  --accent-rgb: 23, 162, 184;
+}
+.card-accent .card-header {
+   background: linear-gradient(
+    to right,
+    rgba(var(--accent-rgb, 0, 0, 0), 0.08) 0%,
+    #fff 85%
+  );
+  font-weight: 600;
+  border-bottom: 1px solid #eaeaea;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.card-accent:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-accent:active {
+  transform: scale(1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-accent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 6px;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  background-color: var(--accent-color, transparent);
+}
+
+
+.card-carousel {
+  position: relative;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.05);
+}
+
+.card-carousel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  background-color: #6c63ff;
+  width: 8px;
+  margin-left: -2px;
+}
+
+.card-carousel:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-section-title {
+  background: linear-gradient(to right, rgba(108, 99, 255, 0.1), transparent);
+  padding: 0.75rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fadeInUp 2.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ask-input {
+  background-color: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.ask-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.3); /* theme blue glow */
 }

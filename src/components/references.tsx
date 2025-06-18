@@ -30,7 +30,7 @@ export const References = () => {
   }
   
   return (
-    <Card className="shadow" style={{ width: `${isMobile ? '90%' : '20rem'}`, marginBottom: '1rem' }}>
+    <Card className="shadow card-accent red" style={{ width: `${isMobile ? '95%' : '20rem'}`, marginBottom: '1rem' }}>
       <Card.Header>References</Card.Header>
       {references ?
         <Card.Body>
@@ -41,6 +41,7 @@ export const References = () => {
                   <span><FileEarmarkPerson size={25} color='indianRed' /></span> {reference.name}
                 </Card.Title>
                 <Card.Text className="m-0" style={{ fontSize: '14px' }}>{reference.relation} - {reference.job_title}</Card.Text>
+                <Card.Text className="m-0" style={{ fontSize: '14px',fontStyle:'italic' }}>"{reference.reference_recommendation}"</Card.Text>
               </div>
             )
           })}

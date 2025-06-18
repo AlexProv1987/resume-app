@@ -11,13 +11,14 @@ import { Footer } from './components/footer';
 import { FeedbackModalButton } from './components/feedback';
 import { useEffect } from 'react';
 import { useResponsiveIsMobile } from './hooks/mobile_hook';
+import { Awards } from './components/awards';
 
 function App() {
   const isMobile = useResponsiveIsMobile();
   console.log('app render')
-      useEffect(() => {
-    
-      }, [isMobile]);
+  useEffect(() => {
+
+  }, [isMobile]);
 
   return (
     <Container className='bg-light' fluid style={{
@@ -28,13 +29,15 @@ function App() {
       margin: 0,
     }}>
       <Header />
-      <Container style={{ flex: 1, marginTop: '2rem',}}>
+      <Container style={{ flex: 1, marginTop: '2rem', }}>
         <Row>
-          <Col lg={8}>
+          <Col lg={9}>
             <JobHistory />
+            <hr className="my-4" style={{ borderColor: '#eee' }} />
             <Projects />
           </Col>
-          <Col lg={4} className={`d-flex flex-column ${isMobile ? 'align-items-center' : 'align-items-end'}`}>
+          <Col lg={3} className={`d-flex flex-column ${isMobile ? 'align-items-center' : 'align-items-end'}`}>
+            <Awards />
             <Certifications />
             <Skills />
             <EducationHistory />
@@ -44,7 +47,7 @@ function App() {
       </Container>
       <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
       </Container>
-       <FeedbackModalButton />
+      <FeedbackModalButton />
       <Footer />
     </Container>
   );

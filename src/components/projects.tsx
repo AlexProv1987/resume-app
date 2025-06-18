@@ -2,7 +2,7 @@ import { Card, Container, Col, Button, Modal, Row } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
-import { ArrowRight, ArrowLeft, Github, Youtube, Git } from 'react-bootstrap-icons';
+import { ArrowRight, ArrowLeft, Github, Youtube, Git, Wrench } from 'react-bootstrap-icons';
 import { CenteredSpinner } from "./common/centered-spinner"
 
 interface ProjectDetails {
@@ -64,17 +64,19 @@ export const Projects = () => {
         fetchProjectsWithDetails()
     }, []);
 
-
     const handleShow = (item: Project | null) => {
         selectedItem.current = item
         setShow(!show)
     }
-
+    
+    if(projects && projects.length === 0){
+        return null;
+    }
 
     return (
         <Container style={{ marginTop: '3rem', marginBottom: '2rem' }}>
-            <Card className="shadow justify-content-around" style={{ minHeight: '16rem', width: '100%' }}>
-                <Card.Header>
+            <Card className="shadow justify-content-around card-carousel" style={{ minHeight: '16rem', width: '100%' }}>
+                <Card.Header className="card-section-title">
                     <Row>
                         <Col className="text-start">
                             <ArrowLeft
@@ -90,7 +92,7 @@ export const Projects = () => {
                             />
                         </Col>
                         <Col className="text-center" style={{ alignSelf: 'center' }}>
-                            <h5>Projects</h5>
+                            <h5 className="section-title"><Wrench className="me-1" /> Projects</h5>
                         </Col>
                         <Col className="text-end">
                             <ArrowRight
