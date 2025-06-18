@@ -1,4 +1,4 @@
-import { Alert, OverlayTrigger, Tooltip } from "react-bootstrap"
+import { Alert, Container, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { Download } from "react-bootstrap-icons"
 import { axiosBaseURL } from "../../http";
 import { useState } from "react";
@@ -37,15 +37,15 @@ export const DownloadResume = (props: Props) => {
                 position: 'absolute',
                 top: '1rem',
                 right: '1rem',
+                marginRight:'1rem',
                 zIndex: 10,
-                cursor: hasResume ? 'not-allowed' : 'pointer'
+                cursor: hasResume ? 'not-allowed' : 'pointer',
             }}
-            onClick={() => getResume()}
         >
             <OverlayTrigger
                 placement="left"
                 overlay={<Tooltip>{hasResume ? "You already have this resume." : "Download Resume."}</Tooltip>}>
-                <Download size={24} color="red" />
+                <Download onClick={()=>getResume()} size={24} color="red" />
             </OverlayTrigger>
         </div>
     )

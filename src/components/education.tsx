@@ -37,7 +37,7 @@ export const EducationHistory = () => {
             return (
               <div className="pb-3" key={education.id}>
                 <Card.Title>
-                  <span><Mortarboard size={25} color='blue' /></span> {education.name}
+                  <span><Mortarboard size={25} color='#1A73E8' /></span> {education.name}
                 </Card.Title>
                 <Card.Text style={{ fontSize: '14px' }} className="mb-0">{education.education_level}</Card.Text>
                 <Card.Text style={{ fontSize: '14px' }}>{education.area_of_study}</Card.Text>

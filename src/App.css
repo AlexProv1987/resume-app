@@ -218,3 +218,46 @@
   outline: none;
   box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.3); /* theme blue glow */
 }
+
+.fab-button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fab-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(26, 115, 232, 0.4);
+}
+
+.fab-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+}
+
+.custom-footer {
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(to right, #6C63FF, #1A73E8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  color: white;
+  font-weight: 500;
+  z-index: 999;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.footer-name {
+  font-size: 0.95rem;
+}
+
+.footer-icons a {
+  color: white;
+  margin-left: 1rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-icons a:hover {
+  transform: scale(1.15);
+  opacity: 0.85;
+}

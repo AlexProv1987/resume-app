@@ -59,10 +59,10 @@ export function FeedbackModalButton() {
             }
             <Button
                 onClick={() => setShow(true)}
-                className="rounded-circle shadow"
+                className="rounded-circle shadow fab-button"
                 style={{
                     borderColor: "#009688",
-                    backgroundColor: "#009688",
+                    backgroundColor: "#1A73E8",
                     position: "fixed",
                     bottom: "60px",
                     right: "20px",
@@ -78,7 +78,8 @@ export function FeedbackModalButton() {
             </Button>
 
             <Modal show={show} onHide={() => setShow(false)} centered>
-                <Modal.Header closeButton className="bg-light">
+                <div className="card-carousel">
+                <Modal.Header closeButton className="card-section-title">
                     <Modal.Title>Leave Feedback</Modal.Title>
                 </Modal.Header>
 
@@ -113,15 +114,16 @@ export function FeedbackModalButton() {
                             </Form.Group>
                         </Modal.Body>
                         : <ModalBody>We Appreciate your feedback!</ModalBody>}
-                    <Modal.Footer className="bg-light">
-                        <Button variant="secondary" onClick={() => setShow(false)}>
+                    <Modal.Footer className="card-section-title">
+                        <Button variant="secondary" size="sm" onClick={() => setShow(false)}>
                             Cancel
                         </Button>
-                        <Button variant="primary" type="submit" disabled={(rating === 0 || didSubmit.current)}>
+                        <Button variant="primary" size="sm" type="submit" disabled={(rating === 0 || didSubmit.current)}>
                             Submit
                         </Button>
                     </Modal.Footer>
                 </Form>
+                </div>
             </Modal>
         </>
     );
