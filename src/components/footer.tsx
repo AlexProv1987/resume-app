@@ -5,7 +5,7 @@ export const Footer = () => {
     <div className="custom-footer">
       <span className="footer-name">© 2025 AP</span>
       <div className="footer-icons">
-        <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">
+        <a href={"https://www.linkedin.com/in/your-profile"} target="_blank" rel="noopener noreferrer">
           <Linkedin size={20} />
         </a>
         <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">

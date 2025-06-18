@@ -5,21 +5,7 @@ import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
 import { CenteredSpinner } from "./common/centered-spinner"
 import {  PersonLinesFill } from "react-bootstrap-icons"
-
-interface User {
-    first_name: string,
-    last_name: string,
-    email: string,
-    phone_number: string,
-};
-
-interface ApplicantRecord {
-    accepting_work: string,
-    applicant_bio: string,
-    banner_img: string,
-    applicant_photo: string,
-    user_reltn: User,
-};
+import { ApplicantRecord } from "../common/interfaces"
 
 export const Header = () => {
     const [applicantData, setApplicantData] = useState<ApplicantRecord | null>(null)
@@ -35,8 +21,6 @@ export const Header = () => {
                 console.error(error)
             });
     }, []);
-
-
 
     return (
         <Container fluid='true'>
@@ -88,14 +72,3 @@ export const Header = () => {
         </Container>
     );
 }
-
-/**
- * 
- * <span style={{ color: 'royalblue', fontFamily: 'monospace', fontSize: '1rem' }}>
-                            {'{'} <span
-                                style={{ color: 'white', cursor: 'pointer' }}
-                                onClick={applicantData ? () => requestContact() : () => { }}>
-                                {applicantData ? `Contact: ${applicantData.user_reltn.first_name} ${applicantData.user_reltn.last_name}` : 'Loading...'}
-                            </span> {'}'}
-                        </span>
- */
