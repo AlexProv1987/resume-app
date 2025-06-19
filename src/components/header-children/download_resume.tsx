@@ -1,7 +1,8 @@
-import { OverlayTrigger, Tooltip } from "react-bootstrap"
+import { Alert, OverlayTrigger, Tooltip } from "react-bootstrap"
 import { Download } from "react-bootstrap-icons"
 import { axiosBaseURL } from "../../http";
 import { useState } from "react";
+import Spinner from 'react-bootstrap/Spinner';
 
 interface Props {
     applicant: string,
@@ -9,11 +10,14 @@ interface Props {
 
 export const DownloadResume = (props: Props) => {
     const [hasResume, setHasResume] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [alertObj,setAlertObj] = useState<{ msg: string; variant: 'success' | 'danger' | 'warning' }>({msg:'',variant:'success'})
 
     const getResume = () => {
         if (hasResume) {
             return;
         }
+        setIsLoading(true)
         axiosBaseURL
             .get(`applicant/get_resume/${props.applicant}`, {
                 responseType: 'blob',
@@ -26,9 +30,12 @@ export const DownloadResume = (props: Props) => {
                 link.href = fileURL;
                 link.download = 'resume.pdf';
                 link.click();
+                setAlertObj({msg:'Resume is available now in your downloads!',variant:'success'})
             })
             .catch((error) => {
-                console.error('Error Getting Resume:', error);
+                setAlertObj({msg:'There was an error processing your request',variant:'danger'})
+            }).finally(function () {
+                setIsLoading(false)
             });
     }
     return (
@@ -37,16 +44,34 @@ export const DownloadResume = (props: Props) => {
                 position: 'absolute',
                 top: '1rem',
                 right: '1rem',
-                marginRight:'1rem',
+                marginRight: '1rem',
                 zIndex: 10,
                 cursor: hasResume ? 'not-allowed' : 'pointer',
             }}
         >
-            <OverlayTrigger
-                placement="left"
-                overlay={<Tooltip>{hasResume ? "You already have this resume." : "Download Resume."}</Tooltip>}>
-                <Download onClick={()=>getResume()} size={24} color="red" />
-            </OverlayTrigger>
+             {alertObj.msg &&
+                <Alert
+                    dismissible
+                    variant={alertObj.variant}
+                    style={{
+                        position: "fixed",
+                        top: "0",
+                        left: "0",
+                        width: "100%",
+                        zIndex: 1060,
+                        borderRadius: 0,
+                    }}
+                >
+                    {alertObj.msg}
+                </Alert>
+            }     
+            {isLoading ? <Spinner animation='grow' variant="info"/> :
+                <OverlayTrigger
+                    placement="left"
+                    overlay={<Tooltip>{hasResume ? "You already have this resume." : "Download Resume."}</Tooltip>}>
+                    <Download onClick={() => getResume()} size={24} color="red" />
+                </OverlayTrigger>
+            }
         </div>
     )
 }
