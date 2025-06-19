@@ -21,6 +21,7 @@ export const EducationHistory = () => {
   useEffect(() => {
     axiosBaseURL.get(`details/education/?applicant=${applicant}`)
       .then(function (response) {
+        console.log(response.data)
         setEducation(response.data)
       })
       .catch(function (error) {
