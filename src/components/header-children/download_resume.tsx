@@ -69,7 +69,8 @@ export const DownloadResume = (props: Props) => {
             {isLoading ? <Spinner animation='grow' variant="info"/> :
                 <OverlayTrigger
                     placement="left"
-                    overlay={<Tooltip>{hasResume ? "You already have this resume." : "Download Resume."}</Tooltip>}>
+                    overlay={<Tooltip>{hasResume ? "You already have this resume." : "Download Resume."}</Tooltip>}
+                    container={() => document.body}>
                     <Download onClick={() => getResume()} size={24} color="#6C63FF" />
                 </OverlayTrigger>
             }

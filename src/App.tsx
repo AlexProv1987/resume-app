@@ -78,7 +78,10 @@ function App() {
       <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
       </Container>
       <FeedbackModalButton />
-      <Footer />
+      <Footer 
+      contact_methods={applicantData?.contact_method ? applicantData.contact_method : []}
+      social={applicantData?.social ? applicantData.social : []}
+      />
     </Container>
   );
 }

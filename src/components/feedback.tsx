@@ -77,6 +77,7 @@ export function FeedbackModalButton() {
                 <OverlayTrigger
                     placement="top"
                     overlay={<Tooltip>Give Feedback!</Tooltip>}
+                    container={() => document.body}
                 >
                     <ChatText size={26} color="white" />
                 </OverlayTrigger>

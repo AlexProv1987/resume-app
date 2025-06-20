@@ -5,8 +5,8 @@ import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
 import { CenteredSpinner } from "./common/centered-spinner"
 import { Envelope, Github, Linkedin, PersonLinesFill, Telephone, Whatsapp } from "react-bootstrap-icons"
-import { ApplicantRecord, ContactMethod } from "../common/interfaces"
-import { getContactIcon } from "../common/icon-maps"
+import { ApplicantRecord, ContactMethod, Social } from "../common/interfaces"
+import { getContactIcon, getSocialIcon } from "../common/icon-maps"
 
 interface Props {
     applicantData: ApplicantRecord | null,
@@ -15,7 +15,7 @@ export const Header = (props: Props) => {
     const [alertMsg, setAlertMsg] = useState<string | null>(null)
 
     useEffect(() => {
-        console.log(props.applicantData)
+
     }, [props.applicantData]);
 
     return (
@@ -60,6 +60,30 @@ export const Header = (props: Props) => {
                                 </Col>
                             </Row>
                             <Row className="d-flex flex-row-reverse card-section-title">
+                                  {props.applicantData?.social?.length !== 0 &&
+                                    props.applicantData.social.map((social: Social, idx: number) => {
+
+                                        const iconConfig = getSocialIcon(social.platform);
+                                        
+                                        const IconComponent = iconConfig.component;
+                                        const href = iconConfig.getHref(social.url);
+
+                                        const iconElement = (
+                                            <a href={href} target="_blank" rel="noreferrer">
+                                                <IconComponent size={20} color="#6c63ff" />
+                                            </a>
+                                        );
+
+                                        const wrapped = iconConfig.renderWrapper
+                                            ? iconConfig.renderWrapper(iconElement, social.platform)
+                                            : iconElement;
+
+                                        return (
+                                            <Col xs="auto" key={idx}>
+                                                {wrapped}
+                                            </Col>
+                                        );
+                                    })}
                                 {props.applicantData?.contact_method?.length !== 0 &&
                                     props.applicantData.contact_method.map((contact: ContactMethod, idx: number) => {
 
