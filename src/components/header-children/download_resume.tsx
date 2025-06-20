@@ -38,6 +38,7 @@ export const DownloadResume = (props: Props) => {
                 setIsLoading(false)
             });
     }
+
     return (
         <div
             style={{
