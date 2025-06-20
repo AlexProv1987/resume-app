@@ -31,17 +31,17 @@ export const EducationHistory = () => {
 
   return (
     <Card className="shadow card-accent blue" style={{ width:`${isMobile ? '95%': '20rem'}`, marginBottom: '1rem' }}>
-      <Card.Header className="card-header">Education</Card.Header>
+      <Card.Header className="card-header text-secondary-emphasis">Education</Card.Header>
       {education ?
-        <Card.Body>
+        <Card.Body className="text-secondary">
           {education.map(function (education: Education) {
             return (
               <div className="pb-3" key={education.id}>
                 <Card.Title>
                   <span><Mortarboard size={25} color='#1A73E8' /></span> {education.name}
                 </Card.Title>
-                <Card.Text style={{ fontSize: '14px' }} className="mb-0">{education.education_level}</Card.Text>
-                <Card.Text style={{ fontSize: '14px' }}>{education.area_of_study}</Card.Text>
+                <Card.Text style={{ fontSize: '14px', fontStyle:'italic' }} className="mb-0">{education.education_level}</Card.Text>
+                <Card.Text style={{ fontSize: '14px', fontStyle:'italic'}}>{education.area_of_study}</Card.Text>
               </div>
             )
           })

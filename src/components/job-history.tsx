@@ -88,7 +88,7 @@ export const JobHistory = () => {
                             </OverlayTrigger>
                         </Col>
 
-                        <Col className="text-center" style={{ alignSelf: 'center' }}>
+                        <Col className="text-center text-dark-emphasis" style={{ alignSelf: 'center' }}>
                             <h5 className="section-title"><Briefcase className="me-1" />Employment</h5>
                         </Col>
 
@@ -113,17 +113,17 @@ export const JobHistory = () => {
                 {selectedJob ?
                     <Card.Body key={selectedJob.work.id} className="fade-in-up" style={{minHeight:'33rem'}}>
                         <Row className="d-flex justify-content-between pb-2">
-                            <Col className="text-start" style={{ fontSize: '18px', fontWeight: 'bold', fontStyle: 'italic' }}>
+                            <Col className="text-start text-secondary" style={{ fontSize: '18px', fontWeight: 'bold', fontStyle: 'italic' }}>
                                 {selectedJob.work.employer_name}
                             </Col>
                         </Row>
                         <Row className="d-flex justify-content-between pb-2">
-                            <Col className="text-start" style={{ fontSize: '16px', fontWeight: 'bold', fontStyle: 'italic' }}>
+                            <Col className="text-start text-secondary" style={{ fontSize: '16px', fontWeight: 'bold', fontStyle: 'italic' }}>
                                 {selectedJob.work.job_title}
                             </Col>
                         </Row>
                         <Row className="d-flex justify-content-between pb-2">
-                            <Col className="text-start" style={{ fontSize: '14px' }}>
+                            <Col className="text-start text-secondary" style={{ fontSize: '14px' }}>
                                 {selectedJob.work.from_date} - {selectedJob.work.to_date ? selectedJob.work.to_date : 'Current'}
                             </Col>
                         </Row>

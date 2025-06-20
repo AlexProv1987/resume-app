@@ -31,7 +31,7 @@ export const Certifications = () => {
     }
 
     return (
-        <Card className="shadow card-accent green" style={{ width: `${isMobile ? '95%' : '20rem'}`, marginBottom: '1rem' }}>
+        <Card className="shadow card-accent green text-secondary-emphasis" style={{ width: `${isMobile ? '95%' : '20rem'}`, marginBottom: '1rem' }}>
             <Card.Header>Certifications</Card.Header>
             {certifications ?
                 <Card.Body>
@@ -41,8 +41,8 @@ export const Certifications = () => {
                                 <OverlayTrigger
                                     placement="top"
                                     overlay={<Tooltip>{certification.name}</Tooltip>}
-                                >
-                                    <Card.Text style={{ fontSize: '14px' }}><span><BookmarkPlus size={25} color='green' /></span>{certification.name.length > 30 ? certification.name.substring(0, 30) + '...' : certification.name}</Card.Text>
+                                    container={() => document.body}>
+                                    <Card.Text className="text-secondary" style={{ fontSize: '14px' }}><span><BookmarkPlus size={25} color='green' /></span>{certification.name.length > 30 ? certification.name.substring(0, 30) + '...' : certification.name}</Card.Text>
                                 </OverlayTrigger>
                             </div>
                         )

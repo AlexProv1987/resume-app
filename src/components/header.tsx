@@ -43,7 +43,7 @@ export const Header = (props: Props) => {
             />
             <Container>
                 <Card className="shadow justify-content-around card-carousel" style={{ marginTop: '2rem', minHeight: '18rem', width: '100%' }}>
-                    <Card.Title className="card-section-title-left text-center" style={{ height: '3rem' }}><PersonLinesFill className="me-2" size={18} />{props.applicantData && `${props.applicantData.user_reltn.first_name} ${props.applicantData.user_reltn.last_name}`}</Card.Title>
+                    <Card.Title className="card-section-title-left text-center text-dark-emphasis" style={{ height: '3rem' }}><PersonLinesFill className="me-2" size={18} />{props.applicantData && `${props.applicantData.user_reltn.first_name} ${props.applicantData.user_reltn.last_name}`}</Card.Title>
                     {props.applicantData ?
                         <Card.Body className="fade-in-up pb-0">
                             <Row className="text-center">
@@ -56,7 +56,7 @@ export const Header = (props: Props) => {
                                     />
                                 </Col>
                                 <Col className="bio-card-col text-left" xs={12} md={9} style={{ marginTop: '20px' }}>
-                                    <p style={{ fontSize: '1rem', lineHeight: '1.65', textAlign: 'left', whiteSpace: 'pre-line' }}>{props.applicantData?.applicant_bio}</p>
+                                    <p className="text-secondary" style={{ fontSize: '1rem', lineHeight: '1.65', textAlign: 'left', whiteSpace: 'pre-line' }}>{props.applicantData?.applicant_bio}</p>
                                 </Col>
                             </Row>
                             <Row className="d-flex flex-row-reverse card-section-title">

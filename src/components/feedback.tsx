@@ -86,7 +86,7 @@ export function FeedbackModalButton() {
             <Modal show={show} onHide={() => setShow(false)} centered>
                 <div className="card-carousel">
                     <Modal.Header closeButton className="card-section-title-left">
-                        <Modal.Title>Leave Feedback</Modal.Title>
+                        <Modal.Title className="text-dark-emphasis">Leave Feedback</Modal.Title>
                     </Modal.Header>
 
                     <Form onSubmit={handleSubmit}>

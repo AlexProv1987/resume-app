@@ -27,7 +27,7 @@ export const Skills = () => {
   //check if mobile for width
   return (
     <Card className="shadow card-accent teal" style={{ width:`${isMobile ? '95%': '20rem'}`, marginBottom: '1rem' }}>
-      <Card.Header>Skills</Card.Header>
+      <Card.Header className="text-secondary-emphasis">Skills</Card.Header>
       {skills ?
         <Card.Body>
           <Row>
@@ -37,6 +37,7 @@ export const Skills = () => {
                   <OverlayTrigger
                     placement="top"
                     overlay={<Tooltip>{skill.skill_name} - {skill.years_of_experience} Yrs. Experience</Tooltip>}
+                    container={() => document.body}
                   >
                     <Card.Img variant="top" style={{ maxHeight: '40px', maxWidth: '40px' }} src={skill.skill_logo} />
                   </OverlayTrigger>

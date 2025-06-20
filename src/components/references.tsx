@@ -31,9 +31,9 @@ export const References = () => {
   
   return (
     <Card className="shadow card-accent red" style={{ width: `${isMobile ? '95%' : '20rem'}`, marginBottom: '1rem' }}>
-      <Card.Header>References</Card.Header>
+      <Card.Header className="text-secondary-emphasis">References</Card.Header>
       {references ?
-        <Card.Body>
+        <Card.Body className="text-secondary">
           {references.map(function (reference: Reference) {
             return (
               <div className="pb-3" key={reference.id}>

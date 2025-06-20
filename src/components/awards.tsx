@@ -32,13 +32,13 @@ export const Awards = () => {
 
     return (
         <Card className="shadow card-accent gold" style={{ width: `${isMobile ? '95%' : '20rem'}`, marginBottom: '1rem' }}>
-            <Card.Header>Awards & Recognition</Card.Header>
+            <Card.Header className="text-secondary-emphasis">Awards & Recognition</Card.Header>
             {awards ?
                 <Card.Body>
                     {awards.map(function (award: Certification) {
                         return (
                             <div className="pb-2" key={award.id}>
-                                <Card.Text style={{ fontSize: '14px' }}><span><Award size={25} color='gold' /></span>{award.reward_name.length > 30 ? award.reward_name.substring(0, 30) + '...' : award.reward_name}</Card.Text>
+                                <Card.Text className="text-secondary" style={{ fontSize: '14px' }}><span><Award size={25} color='gold' /></span>{award.reward_name.length > 30 ? award.reward_name.substring(0, 30) + '...' : award.reward_name}</Card.Text>
                             </div>
                         )
                     })

@@ -100,7 +100,7 @@ export const Projects = () => {
                             </OverlayTrigger>
                         </Col>
                         <Col className="text-center" style={{ alignSelf: 'center' }}>
-                            <h5 className="section-title"><Wrench className="me-1" /> Projects</h5>
+                            <h5 className="section-title text-dark-emphasis"><Wrench className="me-1" /> Projects</h5>
                         </Col>
                         <Col className="text-end">
                             <OverlayTrigger
@@ -128,9 +128,9 @@ export const Projects = () => {
                         {paginatedProjects?.map((project: ProjectSet) => (
                             <Col className="mb-2 d-flex fade-in-up" key={project.project.id}>
                                 <Card className="shadow" style={{ minHeight: '18rem' }}>
-                                    <Card.Header className="card-section-title-left"><h5 style={{ font: 'helvetica' }}>{project.project.name}</h5></Card.Header>
+                                    <Card.Header className="card-section-title-left text-secondary-emphasis"><h5>{project.project.name}</h5></Card.Header>
                                     <Card.Body>
-                                        <Card.Text>
+                                        <Card.Text className="text-secondary">
                                             {project.project.description.length > CHAR_LIMIT ? (
                                                 <>
                                                     {project.project.description.slice(0, CHAR_LIMIT)}...
@@ -199,10 +199,10 @@ export const Projects = () => {
 
             <Modal show={show} onHide={() => handleShow(null)}>
                 <Modal.Header className="card-section-title-left" closeButton>
-                    <Modal.Title >{selectedItem.current?.project.name}</Modal.Title>
+                    <Modal.Title className="text-secondary-emphasis">{selectedItem.current?.project.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>{selectedItem.current?.project.description}</p>
+                    <p className="text-secondary">{selectedItem.current?.project.description}</p>
                     <ListGroup variant="flush">
                     {selectedItem.current?.details.map((detail: ProjectDetails) => (
                         <ListGroup.Item action key={detail.id}><span className="mr-2" ><Activity size={20} color='#BE406E' /></span> {detail.detail_text}</ListGroup.Item>
