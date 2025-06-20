@@ -70,7 +70,7 @@ export const DownloadResume = (props: Props) => {
                 <OverlayTrigger
                     placement="left"
                     overlay={<Tooltip>{hasResume ? "You already have this resume." : "Download Resume."}</Tooltip>}>
-                    <Download onClick={() => getResume()} size={24} color="red" />
+                    <Download onClick={() => getResume()} size={24} color="#6C63FF" />
                 </OverlayTrigger>
             }
         </div>

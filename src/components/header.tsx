@@ -1,19 +1,21 @@
 import { Col, Container, Row, Image, Alert, Card, OverlayTrigger, Tooltip } from "react-bootstrap"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { Envelope, Github, Linkedin, PersonLinesFill, Telephone } from "react-bootstrap-icons"
-import { ApplicantRecord } from "../common/interfaces"
-interface Props{
-    applicantData:ApplicantRecord | null,
+import { Envelope, Github, Linkedin, PersonLinesFill, Telephone, Whatsapp } from "react-bootstrap-icons"
+import { ApplicantRecord, ContactMethod } from "../common/interfaces"
+import { getContactIcon } from "../common/icon-maps"
+
+interface Props {
+    applicantData: ApplicantRecord | null,
 }
-export const Header = (props:Props) => {
+export const Header = (props: Props) => {
     const [alertMsg, setAlertMsg] = useState<string | null>(null)
 
     useEffect(() => {
-
+        console.log(props.applicantData)
     }, [props.applicantData]);
 
     return (
@@ -41,9 +43,9 @@ export const Header = (props:Props) => {
             />
             <Container>
                 <Card className="shadow justify-content-around card-carousel" style={{ marginTop: '2rem', minHeight: '18rem', width: '100%' }}>
-                    <Card.Title className="card-section-title text-center" style={{ height: '3rem' }}><PersonLinesFill className="me-2" size={18} />{props.applicantData && `${props.applicantData.user_reltn.first_name} ${props.applicantData.user_reltn.last_name}`}</Card.Title>
+                    <Card.Title className="card-section-title-left text-center" style={{ height: '3rem' }}><PersonLinesFill className="me-2" size={18} />{props.applicantData && `${props.applicantData.user_reltn.first_name} ${props.applicantData.user_reltn.last_name}`}</Card.Title>
                     {props.applicantData ?
-                        <Card.Body className="fade-in-up">
+                        <Card.Body className="fade-in-up pb-0">
                             <Row className="text-center">
                                 <Col xs={12} md={3}>
                                     <Image
@@ -57,36 +59,31 @@ export const Header = (props:Props) => {
                                     <p style={{ fontSize: '1rem', lineHeight: '1.65', textAlign: 'left', whiteSpace: 'pre-line' }}>{props.applicantData?.applicant_bio}</p>
                                 </Col>
                             </Row>
-                            <Row className="d-flex flex-row-reverse">
-                                <Col xs="auto"><a href={"https://www.linkedin.com/in/your-profile"} target="_blank" rel="noopener noreferrer">
-                                    <Linkedin size={20} color='#6c63ff' />
-                                </a>
-                                </Col>
-                               <Col xs="auto">
-                                <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">
-                                    <Github size={20}  color='#6c63ff'/>
-                                </a>
-                                </Col>
-                              <Col xs="auto">
-                                <OverlayTrigger
-                                    placement="top"
-                                    overlay={<Tooltip>{props.applicantData.user_reltn.phone_number}</Tooltip>}
-                                >
-                                <a href={`tel:+${props.applicantData.user_reltn.phone_number}`}>
-                                    <Telephone size={20}  color='#6c63ff'/>
-                                </a>
-                                </OverlayTrigger>
-                                </Col>
-                              <Col xs="auto">
-                               <OverlayTrigger
-                                    placement="top"
-                                    overlay={<Tooltip>{props.applicantData.user_reltn.email}</Tooltip>}
-                                >
-                                <a href={`mailto:${props.applicantData.user_reltn.email}`}>
-                                    <Envelope size={20}  color='#6c63ff'/>
-                                </a>
-                                </OverlayTrigger>
-                                </Col>
+                            <Row className="d-flex flex-row-reverse card-section-title">
+                                {props.applicantData?.contact_method?.length !== 0 &&
+                                    props.applicantData.contact_method.map((contact: ContactMethod, idx: number) => {
+
+                                        const iconConfig = getContactIcon(contact.contact_type);
+                                        
+                                        const IconComponent = iconConfig.component;
+                                        const href = iconConfig.getHref(contact.value);
+
+                                        const iconElement = (
+                                            <a href={href} target="_blank" rel="noreferrer">
+                                                <IconComponent size={20} color="#6c63ff" />
+                                            </a>
+                                        );
+
+                                        const wrapped = iconConfig.renderWrapper
+                                            ? iconConfig.renderWrapper(iconElement, contact.value)
+                                            : iconElement;
+
+                                        return (
+                                            <Col xs="auto" key={idx}>
+                                                {wrapped}
+                                            </Col>
+                                        );
+                                    })}
                             </Row>
                         </Card.Body>
                         :

@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { ArrowRight, ArrowLeft, Activity, Briefcase } from 'react-bootstrap-icons';
+import { ArrowRight, ArrowLeft, Activity, Briefcase, ChevronDown, ChevronUp } from 'react-bootstrap-icons';
+import { isMobile } from "react-device-detect"
 interface JobDetails {
     id: string,
     order: number,
@@ -21,28 +22,33 @@ interface Job {
     order: number,
 }
 
-interface JobSet{
-    work:Job,
-    details:JobDetails[]
+interface JobSet {
+    work: Job,
+    details: JobDetails[]
 }
 export const JobHistory = () => {
     const jobs = useRef<JobSet[] | null>(null)
     const idx = useRef<number>(-1)
-    const [selectedJob, setSelectedJob] = useState<JobSet | null>(null)
 
+    const [selectedJob, setSelectedJob] = useState<JobSet | null>(null)
+    const [totalJobs, setTotalJobs] = useState<number>(0);
+    const [expanded, setExpanded] = useState(false);
+
+    const MAX_VISIBLE = isMobile ? 3 : 6;
     const canGoBack = idx.current > 0;
     const canGoForward = jobs.current && idx.current < jobs.current.length - 1;
 
     useEffect(() => {
-         axiosBaseURL.get(`work/history_set/?applicant=${applicant}`).then(function(response){
+        axiosBaseURL.get(`work/history_set/?applicant=${applicant}`).then(function (response) {
             jobs.current = response.data;
+            setTotalJobs(response.data.length);
             idx.current = 0
             jobs.current && setSelectedJob(jobs.current[idx.current])
-         }).catch(function(error){
+        }).catch(function (error) {
             console.error('Error fetching work history:', error);
-         }).finally(function(){
+        }).finally(function () {
             //..
-         })
+        })
     }, []);
 
     const updateIndex = (direction: 'up' | 'down') => {
@@ -63,7 +69,7 @@ export const JobHistory = () => {
     return (
         <Container>
             <Card className="shadow justify-content-around card-carousel" style={{ minHeight: '18rem', width: '100%' }}>
-                <Card.Header className="card-section-title">
+                <Card.Header className="card-section-title-left">
                     <Row>
                         <Col className="text-start">
                             <OverlayTrigger
@@ -104,34 +110,60 @@ export const JobHistory = () => {
                         </Col>
                     </Row>
                 </Card.Header>
-                    {selectedJob ?
-                        <Card.Body>
-                            <Row className="d-flex justify-content-between pb-2">
-                                <Col className="text-start" style={{ fontSize: '18px', fontWeight: 'bold', fontStyle: 'italic' }}>
-                                    {selectedJob.work.employer_name}
-                                </Col>
-                            </Row>
-                            <Row className="d-flex justify-content-between pb-2">
-                                <Col className="text-start" style={{ fontSize: '16px', fontWeight: 'bold', fontStyle: 'italic' }}>
-                                    {selectedJob.work.job_title}
-                                </Col>
-                            </Row>
-                            <Row className="d-flex justify-content-between pb-2">
-                                <Col className="text-start" style={{ fontSize: '14px' }}>
-                                    {selectedJob.work.from_date} - {selectedJob.work.to_date ? selectedJob.work.to_date : 'Current'}
-                                </Col>
-                            </Row>
-                            <ListGroup variant="flush">
-                                {selectedJob.details.map(function (details: JobDetails) {
-                                    return (
-                                        <ListGroup.Item action key={details.id}><span className="mr-2" ><Activity size={20} color='#BE406E' /></span> {details.work_detail_text}</ListGroup.Item>
-                                    )
-                                })}
-                            </ListGroup>
-                        </Card.Body>
-                        :
-                        <CenteredSpinner />
-                    }
+                {selectedJob ?
+                    <Card.Body key={selectedJob.work.id} className="fade-in-up" style={{minHeight:'33rem'}}>
+                        <Row className="d-flex justify-content-between pb-2">
+                            <Col className="text-start" style={{ fontSize: '18px', fontWeight: 'bold', fontStyle: 'italic' }}>
+                                {selectedJob.work.employer_name}
+                            </Col>
+                        </Row>
+                        <Row className="d-flex justify-content-between pb-2">
+                            <Col className="text-start" style={{ fontSize: '16px', fontWeight: 'bold', fontStyle: 'italic' }}>
+                                {selectedJob.work.job_title}
+                            </Col>
+                        </Row>
+                        <Row className="d-flex justify-content-between pb-2">
+                            <Col className="text-start" style={{ fontSize: '14px' }}>
+                                {selectedJob.work.from_date} - {selectedJob.work.to_date ? selectedJob.work.to_date : 'Current'}
+                            </Col>
+                        </Row>
+                        <ListGroup variant="flush">
+                            {(expanded ? selectedJob.details : selectedJob.details.slice(0, MAX_VISIBLE)).map(detail => (
+                                <ListGroup.Item action key={detail.id}><span className="mr-2" ><Activity size={20} color='#BE406E' /></span> {detail.work_detail_text}</ListGroup.Item>
+                            ))}
+                            {selectedJob.details.length > MAX_VISIBLE && (
+                                <div className="text-end mt-2">
+                                    {expanded ? (
+                                        <ChevronUp role="button" size={24} onClick={() => setExpanded(false)} />
+                                    ) : (
+                                        <ChevronDown role="button" size={24} onClick={() => setExpanded(true)} />
+                                    )}
+                                </div>
+                            )}
+                        </ListGroup>
+                    </Card.Body>
+
+                    :
+                    <CenteredSpinner />
+                }
+                {selectedJob && (
+                    <div className="text-center py-2  card-section-title">
+                        {Array.from({ length: totalJobs }).map((_, i) => (
+                            <span
+                                key={i}
+                                style={{
+                                    display: 'inline-block',
+                                    margin: '0 5px',
+                                    width: '10px',
+                                    height: '10px',
+                                    borderRadius: '50%',
+                                    backgroundColor: i === idx.current ? '#6c63ff' : '#ccc',
+                                    transition: 'background-color 0.3s ease',
+                                }}
+                            />
+                        ))}
+                    </div>
+                )}
             </Card>
         </Container>
     );

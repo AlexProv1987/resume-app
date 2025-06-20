@@ -1,4 +1,4 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import './App.css';
 import { Header } from './components/header';
 import { JobHistory } from './components/job-history';
@@ -18,17 +18,21 @@ import { ApplicantRecord } from './common/interfaces';
 function App() {
 
   const [applicantData, setApplicantData] = useState<ApplicantRecord | null>(null)
-
+  const [alertMsg,setAlertMsg] = useState<string>('')
   useEffect(() => {
-    axiosBaseURL.get(`applicant/get_applicant/${applicant}`)
+    axiosBaseURL.get(`applicant/applicant_set/${applicant}`)
       .then(function (response) {
-        console.log(response.data)
         setApplicantData(response.data)
       })
       .catch(function (error) {
-        console.error(error)
+        if(error.status === 404){
+          setAlertMsg('Applicant does not exist.')
+        }else{
+          setAlertMsg('The server has gone to sleep it appears...please try again later.')
+        }
       });
   }, []);
+
   console.log('render me daddy')
   return (
     <Container className='bg-light' fluid style={{
@@ -38,6 +42,22 @@ function App() {
       padding: 0,
       margin: 0,
     }}>
+      {alertMsg &&
+        <Alert
+          dismissible
+          variant='danger'
+          style={{
+            position: "fixed",
+            top: "0",
+            left: "0",
+            width: "100%",
+            zIndex: 1060,
+            borderRadius: 0,
+          }}
+        >
+          {alertMsg}
+        </Alert>
+      }
       <Header applicantData={applicantData ? applicantData : null} />
       <Container style={{ flex: 1, marginTop: '2rem', }}>
         <Row>
