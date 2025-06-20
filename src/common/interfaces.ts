@@ -6,6 +6,7 @@ interface User {
 };
 
 export interface ApplicantRecord {
+  id:string,
   accepting_work: string,
   applicant_bio: string,
   banner_img: string,

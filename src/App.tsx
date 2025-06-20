@@ -9,17 +9,27 @@ import { Projects } from './components/projects';
 import { Certifications } from './components/certifications';
 import { Footer } from './components/footer';
 import { FeedbackModalButton } from './components/feedback';
-import { useEffect } from 'react';
-import { useResponsiveIsMobile } from './hooks/mobile_hook';
+import { useEffect, useState } from 'react';
 import { Awards } from './components/awards';
-
+import { isMobile } from 'react-device-detect';
+import { axiosBaseURL } from './http';
+import { applicant } from './common/constants';
+import { ApplicantRecord } from './common/interfaces';
 function App() {
-  const isMobile = useResponsiveIsMobile();
-  console.log('app render')
+
+  const [applicantData, setApplicantData] = useState<ApplicantRecord | null>(null)
+
   useEffect(() => {
-
-  }, [isMobile]);
-
+    axiosBaseURL.get(`applicant/get_applicant/${applicant}`)
+      .then(function (response) {
+        console.log(response.data)
+        setApplicantData(response.data)
+      })
+      .catch(function (error) {
+        console.error(error)
+      });
+  }, []);
+  console.log('render me daddy')
   return (
     <Container className='bg-light' fluid style={{
       display: 'flex',
@@ -28,7 +38,7 @@ function App() {
       padding: 0,
       margin: 0,
     }}>
-      <Header />
+      <Header applicantData={applicantData ? applicantData : null} />
       <Container style={{ flex: 1, marginTop: '2rem', }}>
         <Row>
           <Col lg={9}>

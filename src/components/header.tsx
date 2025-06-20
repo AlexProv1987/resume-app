@@ -1,26 +1,20 @@
-import { Col, Container, Row, Image, Alert, Card } from "react-bootstrap"
-import { useEffect,  useState } from "react"
+import { Col, Container, Row, Image, Alert, Card, OverlayTrigger, Tooltip } from "react-bootstrap"
+import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
 import { CenteredSpinner } from "./common/centered-spinner"
-import {  PersonLinesFill } from "react-bootstrap-icons"
+import { Envelope, Github, Linkedin, PersonLinesFill, Telephone } from "react-bootstrap-icons"
 import { ApplicantRecord } from "../common/interfaces"
-
-export const Header = () => {
-    const [applicantData, setApplicantData] = useState<ApplicantRecord | null>(null)
+interface Props{
+    applicantData:ApplicantRecord | null,
+}
+export const Header = (props:Props) => {
     const [alertMsg, setAlertMsg] = useState<string | null>(null)
-   
 
     useEffect(() => {
-        axiosBaseURL.get(`applicant/get_applicant/${applicant}`)
-            .then(function (response) {
-                setApplicantData(response.data)
-            })
-            .catch(function (error) {
-                console.error(error)
-            });
-    }, []);
+
+    }, [props.applicantData]);
 
     return (
         <Container fluid='true'>
@@ -39,28 +33,59 @@ export const Header = () => {
                 >
                     {alertMsg}
                 </Alert>
-            }     
+            }
             <SearchComponent
                 applicant_id={applicant}
-                applicant_name_first={`${applicantData?.user_reltn.first_name}`}
-                banner_img={applicantData?.banner_img ? applicantData.banner_img : defaultBannerImg}
+                applicant_name_first={`${props.applicantData?.user_reltn.first_name}`}
+                banner_img={props.applicantData?.banner_img ? props.applicantData.banner_img : defaultBannerImg}
             />
             <Container>
                 <Card className="shadow justify-content-around card-carousel" style={{ marginTop: '2rem', minHeight: '18rem', width: '100%' }}>
-                    <Card.Title className="card-section-title text-center" style={{ height: '3rem' }}><PersonLinesFill className="me-2" size={18} />{applicantData && `${applicantData.user_reltn.first_name} ${applicantData.user_reltn.last_name}`}</Card.Title>
-                    {applicantData ?
+                    <Card.Title className="card-section-title text-center" style={{ height: '3rem' }}><PersonLinesFill className="me-2" size={18} />{props.applicantData && `${props.applicantData.user_reltn.first_name} ${props.applicantData.user_reltn.last_name}`}</Card.Title>
+                    {props.applicantData ?
                         <Card.Body className="fade-in-up">
                             <Row className="text-center">
                                 <Col xs={12} md={3}>
                                     <Image
 
-                                        src={applicantData?.applicant_photo ? applicantData.applicant_photo : defaultPhoto}
+                                        src={props.applicantData?.applicant_photo ? props.applicantData.applicant_photo : defaultPhoto}
                                         roundedCircle
                                         fluid
                                     />
                                 </Col>
-                                <Col className="bio-card-col text-left" xs={12} md={9} style={{ marginTop: '20px', marginBottom: '50px' }}>
-                                    <p style={{ fontSize: '1rem', lineHeight: '1.65', textAlign: 'left', whiteSpace: 'pre-line' }}>{applicantData?.applicant_bio}</p>
+                                <Col className="bio-card-col text-left" xs={12} md={9} style={{ marginTop: '20px' }}>
+                                    <p style={{ fontSize: '1rem', lineHeight: '1.65', textAlign: 'left', whiteSpace: 'pre-line' }}>{props.applicantData?.applicant_bio}</p>
+                                </Col>
+                            </Row>
+                            <Row className="d-flex flex-row-reverse">
+                                <Col xs="auto"><a href={"https://www.linkedin.com/in/your-profile"} target="_blank" rel="noopener noreferrer">
+                                    <Linkedin size={20} color='#6c63ff' />
+                                </a>
+                                </Col>
+                               <Col xs="auto">
+                                <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">
+                                    <Github size={20}  color='#6c63ff'/>
+                                </a>
+                                </Col>
+                              <Col xs="auto">
+                                <OverlayTrigger
+                                    placement="top"
+                                    overlay={<Tooltip>{props.applicantData.user_reltn.phone_number}</Tooltip>}
+                                >
+                                <a href={`tel:+${props.applicantData.user_reltn.phone_number}`}>
+                                    <Telephone size={20}  color='#6c63ff'/>
+                                </a>
+                                </OverlayTrigger>
+                                </Col>
+                              <Col xs="auto">
+                               <OverlayTrigger
+                                    placement="top"
+                                    overlay={<Tooltip>{props.applicantData.user_reltn.email}</Tooltip>}
+                                >
+                                <a href={`mailto:${props.applicantData.user_reltn.email}`}>
+                                    <Envelope size={20}  color='#6c63ff'/>
+                                </a>
+                                </OverlayTrigger>
                                 </Col>
                             </Row>
                         </Card.Body>

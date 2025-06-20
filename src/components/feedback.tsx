@@ -61,8 +61,8 @@ export function FeedbackModalButton() {
                 onClick={() => setShow(true)}
                 className="rounded-circle shadow fab-button"
                 style={{
-                    borderColor: "#009688",
-                    backgroundColor: "#1A73E8",
+                    borderColor: "#6c63ff",
+                    backgroundColor: "#6c63ff",
                     position: "fixed",
                     bottom: "60px",
                     right: "20px",
