@@ -1,5 +1,5 @@
 import { Alert, OverlayTrigger, Tooltip } from "react-bootstrap"
-import { Download } from "react-bootstrap-icons"
+import { Download, FileEarmarkArrowDown, FileEarmarkArrowDownFill, FileEarmarkPdf } from "react-bootstrap-icons"
 import { axiosBaseURL } from "../../http";
 import { useState } from "react";
 import Spinner from 'react-bootstrap/Spinner';
@@ -71,7 +71,7 @@ export const DownloadResume = (props: Props) => {
                     placement="left"
                     overlay={<Tooltip>{hasResume ? "You already have this resume." : "Download Resume."}</Tooltip>}
                     container={() => document.body}>
-                    <Download onClick={() => getResume()} size={24} color="#6C63FF" />
+                    <FileEarmarkArrowDownFill onClick={() => getResume()} size={24} color="#6C63FF" />
                 </OverlayTrigger>
             }
         </div>

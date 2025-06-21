@@ -1,6 +1,6 @@
 import { Envelope, Github, Linkedin, Telephone } from "react-bootstrap-icons";
 import { ContactMethod, Social } from "../common/interfaces";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getContactIcon, getSocialIcon } from "../common/icon-maps";
 import { Col } from "react-bootstrap";
 interface Props {
@@ -9,6 +9,8 @@ interface Props {
 }
 export const Footer = (props: Props) => {
 
+  const footerContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
 
   }, [props.social, props.contact_methods]);
@@ -16,7 +18,7 @@ export const Footer = (props: Props) => {
   return (
     <div className="custom-footer">
       <span className="footer-name">© 2025 AP</span>
-      <div className="footer-icons d-flex flex-row-reverse">
+      <div className="footer-icons d-flex flex-row-reverse" ref={footerContainerRef}>
         {props?.social?.length !== 0 &&
           props.social.map((social: Social, idx: number) => {
 
@@ -32,7 +34,7 @@ export const Footer = (props: Props) => {
             );
 
             const wrapped = iconConfig.renderWrapper
-              ? iconConfig.renderWrapper(iconElement, social.platform)
+              ? iconConfig.renderWrapper(iconElement, social.platform, footerContainerRef.current)
               : iconElement;
             return (
               <Col xs="auto" key={idx}>

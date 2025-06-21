@@ -1,9 +1,9 @@
-import { Card, OverlayTrigger, Tooltip } from "react-bootstrap"
+import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { Award, BookmarkPlus } from 'react-bootstrap-icons';
+import { ArrowBarDown, Award, AwardFill, BookmarkPlus, CaretDownFill, CaretUpFill, ChevronDoubleDown, ChevronDown, ChevronUp } from 'react-bootstrap-icons';
 import { isMobile } from "react-device-detect"
 
 interface Certification {
@@ -13,8 +13,10 @@ interface Certification {
 }
 
 export const Awards = () => {
-
+    const [expanded, setExpanded] = useState(false);
     const [awards, setAwards] = useState<Certification[] | null>(null)
+
+    const MAX_VISIBLE = 3
 
     useEffect(() => {
         axiosBaseURL.get(`details/awards/?applicant=${applicant}`)
@@ -32,17 +34,33 @@ export const Awards = () => {
 
     return (
         <Card className="shadow card-accent gold" style={{ width: `${isMobile ? '95%' : '20rem'}`, marginBottom: '1rem' }}>
-            <Card.Header className="text-secondary-emphasis">Awards & Recognition</Card.Header>
+            <Card.Header className="text-secondary-emphasis">
+            <Row>
+                <Col>
+                    Recognition
+                </Col>
+                <Col>
+                 {awards && awards.length > MAX_VISIBLE && (
+                        <div className="text-end pb-1">
+                            {expanded ? (
+                                <CaretUpFill role="button" color='gold' size={20} onClick={() => setExpanded(false)} />
+                            ) : (
+                                <CaretDownFill role="button" color='gold' size={20} onClick={() => setExpanded(true)} />
+                            )}
+                        </div>
+                    )}
+                </Col>
+            </Row>    
+            </Card.Header>
             {awards ?
                 <Card.Body>
-                    {awards.map(function (award: Certification) {
-                        return (
-                            <div className="pb-2" key={award.id}>
-                                <Card.Text className="text-secondary" style={{ fontSize: '14px' }}><span><Award size={25} color='gold' /></span>{award.reward_name.length > 30 ? award.reward_name.substring(0, 30) + '...' : award.reward_name}</Card.Text>
-                            </div>
-                        )
-                    })
-                    }
+                    {(expanded ? awards : awards.slice(0, MAX_VISIBLE)).map(award => (
+                        <div className="pb-1" key={award.id}>
+                            <Card.Text className="text-secondary" style={{ fontSize: '14px' }}>
+                                <span><Award size={25} color='gold' /></span>{award.reward_name.length > 30 ? award.reward_name.substring(0, 30) + '...' : award.reward_name}
+                            </Card.Text>
+                        </div>
+                    ))}
                 </Card.Body>
                 : <CenteredSpinner />
             }

@@ -126,7 +126,7 @@
 }
 
 .card-accent .card-header {
-  background: linear-gradient(to right,
+  background: linear-gradient(to left,
       rgba(var(--accent-rgb, 0, 0, 0), 0.08) 0%,
       #fff 85%);
   font-weight: 600;

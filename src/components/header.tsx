@@ -1,10 +1,9 @@
-import { Col, Container, Row, Image, Alert, Card, OverlayTrigger, Tooltip } from "react-bootstrap"
-import React, { useEffect, useState } from "react"
-import { axiosBaseURL } from "../http"
+import { Col, Container, Row, Image, Alert, Card } from "react-bootstrap"
+import { useEffect, useRef, useState } from "react"
 import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { Envelope, Github, Linkedin, PersonLinesFill, Telephone, Whatsapp } from "react-bootstrap-icons"
+import { PersonLinesFill } from "react-bootstrap-icons"
 import { ApplicantRecord, ContactMethod, Social } from "../common/interfaces"
 import { getContactIcon, getSocialIcon } from "../common/icon-maps"
 
@@ -13,7 +12,8 @@ interface Props {
 }
 export const Header = (props: Props) => {
     const [alertMsg, setAlertMsg] = useState<string | null>(null)
-
+    const iconContainerRef = useRef<HTMLDivElement>(null);
+    
     useEffect(() => {
 
     }, [props.applicantData]);
@@ -59,7 +59,7 @@ export const Header = (props: Props) => {
                                     <p className="text-secondary" style={{ fontSize: '1rem', lineHeight: '1.65', textAlign: 'left', whiteSpace: 'pre-line' }}>{props.applicantData?.applicant_bio}</p>
                                 </Col>
                             </Row>
-                            <Row className="d-flex flex-row-reverse card-section-title">
+                            <Row className="d-flex flex-row-reverse card-section-title" ref={iconContainerRef}>
                                   {props.applicantData?.social?.length !== 0 &&
                                     props.applicantData.social.map((social: Social, idx: number) => {
 
@@ -75,7 +75,7 @@ export const Header = (props: Props) => {
                                         );
 
                                         const wrapped = iconConfig.renderWrapper
-                                            ? iconConfig.renderWrapper(iconElement, social.platform)
+                                            ? iconConfig.renderWrapper(iconElement, social.platform,iconContainerRef.current)
                                             : iconElement;
 
                                         return (
@@ -99,7 +99,7 @@ export const Header = (props: Props) => {
                                         );
 
                                         const wrapped = iconConfig.renderWrapper
-                                            ? iconConfig.renderWrapper(iconElement, contact.value)
+                                            ? iconConfig.renderWrapper(iconElement, contact.value,)
                                             : iconElement;
 
                                         return (

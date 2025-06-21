@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Envelope, Telephone, PersonLinesFill, Linkedin, Twitter, Github, Briefcase, Mastodon, Signal, PersonArmsUp } from "react-bootstrap-icons";
+import { Envelope, Telephone, Linkedin, Github, Briefcase, Mastodon, Signal, PersonArmsUp } from "react-bootstrap-icons";
 
 interface iconObj {
   name: string;
   component: React.ElementType;
   getHref: (value: string) => string;
-  renderWrapper?: (children: ReactNode, value: string) => ReactNode;
+  renderWrapper?: (children: ReactNode, value: string, container?: HTMLElement | null) => ReactNode;
 }
 
 const contactIconMapArr: iconObj[] = [
@@ -14,8 +14,8 @@ const contactIconMapArr: iconObj[] = [
     name: "email",
     component: Envelope,
     getHref: (value: string) => `mailto:${value}`,
-     renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+     renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -24,8 +24,8 @@ const contactIconMapArr: iconObj[] = [
     name: "signal",
     component: Signal,
     getHref: (value: string) => `mailto:${value}`,
-    renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+    renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -34,8 +34,8 @@ const contactIconMapArr: iconObj[] = [
     name: "phone",
     component: Telephone,
     getHref: (value: string) => `tel:${value}`,
-    renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+    renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -44,8 +44,8 @@ const contactIconMapArr: iconObj[] = [
     name: "default",
     component: PersonArmsUp,
     getHref: (value: string) => value,
-     renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+     renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -63,8 +63,8 @@ export const socialIconMapArr: iconObj[] = [
     name: "linkdin",
     component: Linkedin,
     getHref: (value: string) => `mailto:${value}`,
-     renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+     renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -73,8 +73,8 @@ export const socialIconMapArr: iconObj[] = [
     name: "twitter",
     component: Linkedin,
     getHref: (value: string) => `mailto:${value}`,
-     renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+     renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -83,8 +83,8 @@ export const socialIconMapArr: iconObj[] = [
     name: "github",
     component: Github,
     getHref: (value: string) => `mailto:${value}`,
-     renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+     renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -93,8 +93,8 @@ export const socialIconMapArr: iconObj[] = [
     name: "portfolio",
     component: Briefcase,
     getHref: (value: string) => `mailto:${value}`,
-     renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+     renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -103,8 +103,8 @@ export const socialIconMapArr: iconObj[] = [
     name: "mastodon",
     component: Mastodon,
     getHref: (value: string) => `mailto:${value}`,
-     renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+     renderWrapper: (children, value,container) => (
+      <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),
@@ -113,8 +113,8 @@ export const socialIconMapArr: iconObj[] = [
     name: "default",
     component: PersonArmsUp,
     getHref: (value: string) => value,
-     renderWrapper: (children, value) => (
-      <OverlayTrigger placement="top" overlay={<Tooltip>{value}</Tooltip>} container={() => document.body}>
+     renderWrapper: (children, value,container) => (
+      <OverlayTrigger  containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
       </OverlayTrigger>
     ),

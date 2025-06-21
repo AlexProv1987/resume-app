@@ -136,6 +136,7 @@ export const Projects = () => {
                                                     {project.project.description.slice(0, CHAR_LIMIT)}...
                                                     <Button
                                                         variant="link"
+                                                        style={{color:'#6c63ff'}}
                                                         size="sm"
                                                         className="p-0 ms-1 align-baseline"
                                                         onClick={() => handleShow(project)}
@@ -154,20 +155,20 @@ export const Projects = () => {
                                             style={{ cursor: `${project.project.source_control_url ? 'pointer' : 'not-allowed'}` }}
                                             href={project.project.source_control_url}
                                         >
-                                            <Github size={26} className="m-1" color={project.project.source_control_url ? "black" : "lightgray"} />
+                                            <Github size={26} className="m-1" color={project.project.source_control_url ? "#6c63ff" : "lightgray"} />
                                         </a>
                                         <a target="_blank"
                                             rel='noreferrer'
                                             style={{ cursor: `${project.project.video_url ? 'pointer' : 'not-allowed'}` }}
                                             href={project.project.video_url}>
-                                            <Youtube size={26} className="m-1" color={project.project.video_url ? "red" : "lightgray"} />
+                                            <Youtube size={26} className="m-1" color={project.project.video_url ? "#6c63ff" : "lightgray"} />
                                         </a>
                                         <a target="_blank"
                                             rel='noreferrer'
                                             style={{ cursor: `${project.project.demo_url ? 'pointer' : 'not-allowed'}` }}
                                             href={project.project.demo_url}
                                         >
-                                            <Git size={26} className="m-1" color={project.project.demo_url ? "royalblue" : "lightgray"} />
+                                            <Git size={26} className="m-1" color={project.project.demo_url ? "#6c63ff" : "lightgray"} />
                                         </a>
                                     </Card.Footer>
                                 </Card>

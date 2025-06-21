@@ -24,7 +24,11 @@ export const Skills = () => {
       });
 
   }, []);
-  //check if mobile for width
+  
+  if(skills && skills.length === 0){
+    return null;
+  }
+  
   return (
     <Card className="shadow card-accent teal" style={{ width:`${isMobile ? '95%': '20rem'}`, marginBottom: '1rem' }}>
       <Card.Header className="text-secondary-emphasis">Skills</Card.Header>

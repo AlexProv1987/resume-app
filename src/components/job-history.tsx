@@ -3,8 +3,9 @@ import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
 import { applicant } from "../common/constants"
 import { CenteredSpinner } from "./common/centered-spinner"
-import { ArrowRight, ArrowLeft, Activity, Briefcase, ChevronDown, ChevronUp } from 'react-bootstrap-icons';
+import { ArrowRight, ArrowLeft, Activity, Briefcase, ChevronDown, ChevronUp, CaretUp, CaretUpFill, CaretDownFill } from 'react-bootstrap-icons';
 import { isMobile } from "react-device-detect"
+import userEvent from "@testing-library/user-event"
 interface JobDetails {
     id: string,
     order: number,
@@ -134,20 +135,19 @@ export const JobHistory = () => {
                             {selectedJob.details.length > MAX_VISIBLE && (
                                 <div className="text-end mt-2">
                                     {expanded ? (
-                                        <ChevronUp role="button" size={24} onClick={() => setExpanded(false)} />
+                                        <CaretUpFill role="button" color='#6c63ff' size={24} onClick={() => setExpanded(false)} />
                                     ) : (
-                                        <ChevronDown role="button" size={24} onClick={() => setExpanded(true)} />
+                                        <CaretDownFill role="button" color='#6c63ff' size={24} onClick={() => setExpanded(true)} />
                                     )}
                                 </div>
                             )}
                         </ListGroup>
                     </Card.Body>
-
                     :
                     <CenteredSpinner />
                 }
                 {selectedJob && (
-                    <div className="text-center py-2  card-section-title">
+                    <div className="text-center pb-3  card-section-title">
                         {Array.from({ length: totalJobs }).map((_, i) => (
                             <span
                                 key={i}
