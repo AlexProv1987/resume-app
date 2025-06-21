@@ -18,16 +18,16 @@ import { ApplicantRecord } from './common/interfaces';
 function App() {
 
   const [applicantData, setApplicantData] = useState<ApplicantRecord | null>(null)
-  const [alertMsg,setAlertMsg] = useState<string>('')
+  const [alertMsg, setAlertMsg] = useState<string>('')
   useEffect(() => {
     axiosBaseURL.get(`applicant/applicant_set/${applicant}`)
       .then(function (response) {
         setApplicantData(response.data)
       })
       .catch(function (error) {
-        if(error.status === 404){
+        if (error.status === 404) {
           setAlertMsg('Applicant does not exist.')
-        }else{
+        } else {
           setAlertMsg('The server has gone to sleep it appears...please try again later.')
         }
       });
@@ -77,10 +77,12 @@ function App() {
       </Container>
       <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
       </Container>
-      <FeedbackModalButton />
-      <Footer 
-      contact_methods={applicantData?.contact_method ? applicantData.contact_method : []}
-      social={applicantData?.social ? applicantData.social : []}
+      <FeedbackModalButton
+        first_name={applicantData?.user_reltn.first_name}
+      />
+      <Footer
+        contact_methods={applicantData?.contact_method ? applicantData.contact_method : []}
+        social={applicantData?.social ? applicantData.social : []}
       />
     </Container>
   );

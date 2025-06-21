@@ -11,10 +11,6 @@ export const Footer = (props: Props) => {
 
   const footerContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-
-  }, [props.social, props.contact_methods]);
-
   return (
     <div className="custom-footer">
       <span className="footer-name">© 2025 AP</span>

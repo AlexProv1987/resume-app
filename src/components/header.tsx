@@ -14,10 +14,6 @@ export const Header = (props: Props) => {
     const [alertMsg, setAlertMsg] = useState<string | null>(null)
     const iconContainerRef = useRef<HTMLDivElement>(null);
     
-    useEffect(() => {
-
-    }, [props.applicantData]);
-
     return (
         <Container fluid='true'>
             {alertMsg &&

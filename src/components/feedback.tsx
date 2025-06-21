@@ -5,7 +5,11 @@ import Rating from "react-rating";
 import { applicant } from "../common/constants";
 import { axiosBaseURL } from "../http";
 
-export function FeedbackModalButton() {
+interface Props{
+    first_name:string | undefined,
+}
+
+export function FeedbackModalButton(props:Props) {
     const [show, setShow] = useState<boolean>(false)
     const [rating, setRating] = useState<number>(0)
     const [comment, setComment] = useState<string>("")
@@ -74,19 +78,13 @@ export function FeedbackModalButton() {
                     justifyContent: "center",
                 }}
             >
-                <OverlayTrigger
-                    placement="top"
-                    overlay={<Tooltip>Give Feedback!</Tooltip>}
-                    container={() => document.body}
-                >
-                    <ChatText size={26} color="white" />
-                </OverlayTrigger>
+                <ChatText size={26} color="white" />
             </Button>
 
             <Modal show={show} onHide={() => setShow(false)} centered>
                 <div className="card-carousel">
                     <Modal.Header closeButton className="card-section-title-left">
-                        <Modal.Title className="text-dark-emphasis">Leave Feedback</Modal.Title>
+                        <Modal.Title className="text-dark-emphasis">Connect with the {props.first_name}</Modal.Title>
                     </Modal.Header>
 
                     <Form onSubmit={handleSubmit}>
@@ -102,7 +100,7 @@ export function FeedbackModalButton() {
                                 </div>
                                 <Form.Group>
                                     <Form.Label>
-                                        Comment
+                                        Message
                                         <OverlayTrigger
                                             placement="right"
                                             overlay={<Tooltip>Optional field — leave blank if not applicable</Tooltip>}>
@@ -113,13 +111,13 @@ export function FeedbackModalButton() {
                                         disabled={didSubmit.current ? true : false}
                                         as="textarea"
                                         rows={3}
-                                        placeholder="Let me know what you think..."
+                                        placeholder={`Message to ${props.first_name}`}
                                         value={comment}
                                         onChange={(e) => setComment(e.target.value)}
                                     />
                                 </Form.Group>
                             </Modal.Body>
-                            : <ModalBody>We Appreciate your feedback!</ModalBody>}
+                            : <ModalBody>Thank you!</ModalBody>}
                         <Modal.Footer className="card-section-title">
                             <Button className="custom-cancel" variant="secondary" size="sm" onClick={() => setShow(false)}>
                                 Cancel
