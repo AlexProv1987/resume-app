@@ -32,7 +32,7 @@ function App() {
         }
       });
   }, []);
-
+  console.log(applicant)
   console.log('render me daddy')
   return (
     <Container className='bg-light' fluid style={{
