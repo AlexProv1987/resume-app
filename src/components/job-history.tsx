@@ -66,8 +66,11 @@ export const JobHistory = () => {
                 return;
         }
     }
-    console.log('what are you sir?')
-    console.log(selectedJob)
+
+    if(selectedJob === undefined){
+        return null
+    }
+    
     return (
         <Container>
             <Card className="shadow justify-content-around card-carousel" style={{ minHeight: '18rem', width: '100%' }}>
