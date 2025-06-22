@@ -66,7 +66,8 @@ export const JobHistory = () => {
                 return;
         }
     }
-
+    console.log('what are you sir?')
+    console.log(selectedJob)
     return (
         <Container>
             <Card className="shadow justify-content-around card-carousel" style={{ minHeight: '18rem', width: '100%' }}>
