@@ -23,7 +23,7 @@ const contactIconMapArr: iconObj[] = [
     {
     name: "signal",
     component: Signal,
-    getHref: (value: string) => `mailto:${value}`,
+    getHref: (value: string) => `${value}`,
     renderWrapper: (children, value,container) => (
       <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
@@ -62,7 +62,7 @@ export const socialIconMapArr: iconObj[] = [
   {
     name: "linkdin",
     component: Linkedin,
-    getHref: (value: string) => `mailto:${value}`,
+    getHref: (value: string) => `${value}`,
      renderWrapper: (children, value,container) => (
       <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
@@ -72,7 +72,7 @@ export const socialIconMapArr: iconObj[] = [
   {
     name: "twitter",
     component: Linkedin,
-    getHref: (value: string) => `mailto:${value}`,
+    getHref: (value: string) => `${value}`,
      renderWrapper: (children, value,container) => (
       <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
@@ -82,7 +82,7 @@ export const socialIconMapArr: iconObj[] = [
   {
     name: "github",
     component: Github,
-    getHref: (value: string) => `mailto:${value}`,
+    getHref: (value: string) => `${value}`,
      renderWrapper: (children, value,container) => (
       <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
@@ -92,7 +92,7 @@ export const socialIconMapArr: iconObj[] = [
   {
     name: "portfolio",
     component: Briefcase,
-    getHref: (value: string) => `mailto:${value}`,
+    getHref: (value: string) => `${value}`,
      renderWrapper: (children, value,container) => (
       <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
@@ -102,7 +102,7 @@ export const socialIconMapArr: iconObj[] = [
   {
     name: "mastodon",
     component: Mastodon,
-    getHref: (value: string) => `mailto:${value}`,
+    getHref: (value: string) => `${value}`,
      renderWrapper: (children, value,container) => (
       <OverlayTrigger containerPadding={10} placement="top" overlay={<Tooltip>{value}</Tooltip>} container={container}>
         {children as React.ReactElement}
