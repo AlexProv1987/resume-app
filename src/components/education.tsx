@@ -1,7 +1,7 @@
 import { Card, Col, Row } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
-import { applicant } from "../../constants"
+import { applicant } from "../constants"
 import { CenteredSpinner } from "./common/centered-spinner"
 import { CaretDownFill, CaretUpFill, Mortarboard } from 'react-bootstrap-icons';
 import { isMobile } from "react-device-detect"

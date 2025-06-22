@@ -1,6 +1,6 @@
 import { Col, Container, Row, Image, Alert, Card } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
-import { applicant } from "../../constants"
+import { applicant } from "../constants"
 import { SearchComponent } from "./header-children/ai-search"
 import { CenteredSpinner } from "./common/centered-spinner"
 import { PersonLinesFill } from "react-bootstrap-icons"

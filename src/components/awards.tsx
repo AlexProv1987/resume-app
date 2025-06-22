@@ -1,7 +1,7 @@
 import { Card, Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { axiosBaseURL } from "../http"
-import { applicant } from "../../constants"
+import { applicant } from "../constants"
 import { CenteredSpinner } from "./common/centered-spinner"
 import { ArrowBarDown, Award, AwardFill, BookmarkPlus, CaretDownFill, CaretUpFill, ChevronDoubleDown, ChevronDown, ChevronUp } from 'react-bootstrap-icons';
 import { isMobile } from "react-device-detect"

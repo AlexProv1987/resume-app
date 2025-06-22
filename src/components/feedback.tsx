@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Modal, Button, Form, ModalBody, Alert, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Star, StarFill, ChatText, InfoCircle } from "react-bootstrap-icons";
 import Rating from "react-rating";
-import { applicant } from "../../constants";
+import { applicant } from "../constants";
 import { axiosBaseURL } from "../http";
 
 interface Props{
