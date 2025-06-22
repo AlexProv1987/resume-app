@@ -1,2 +1,2 @@
 //will be env var
-export const applicant:string = '2ae5a1270a454e498084d4fdd5e503ea';
+export const applicant:string = process.env.APPLICANT ? process.env.APPLICANT : '2ae5a1270a454e498084d4fdd5e503ea';
