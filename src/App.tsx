@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { Awards } from './components/awards';
 import { isMobile } from 'react-device-detect';
 import { axiosBaseURL } from './http';
-import { applicant } from './common/constants';
+import { applicant } from '../constants';
 import { ApplicantRecord } from './common/interfaces';
 function App() {
 

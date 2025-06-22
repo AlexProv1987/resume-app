@@ -1,7 +1,7 @@
 import { Container, Row, Col, Card, ListGroup, Button, OverlayTrigger, Tooltip, Fade } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
-import { applicant } from "../common/constants"
+import { applicant } from "../../constants"
 import { CenteredSpinner } from "./common/centered-spinner"
 import { ArrowRight, ArrowLeft, Activity, Briefcase, ChevronDown, ChevronUp, CaretUp, CaretUpFill, CaretDownFill } from 'react-bootstrap-icons';
 import { isMobile } from "react-device-detect"

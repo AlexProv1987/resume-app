@@ -1,7 +1,7 @@
 import { Card, Container, Col, Button, Modal, Row, OverlayTrigger, Tooltip, ListGroup } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { axiosBaseURL } from "../http"
-import { applicant } from "../common/constants"
+import { applicant } from "../../constants"
 import { ArrowRight, ArrowLeft, Github, Youtube, Git, Wrench, Activity } from 'react-bootstrap-icons';
 import { CenteredSpinner } from "./common/centered-spinner"
 

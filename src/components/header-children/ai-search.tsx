@@ -4,7 +4,7 @@ import { CenteredSpinner } from "../common/centered-spinner"
 import { axiosBaseURL } from "../../http"
 import { DownloadResume } from "./download_resume"
 import { BouncingDotsLoader } from "../common/bouncing-loader"
-import { applicant } from "../../common/constants"
+import { applicant } from "../../../constants"
 interface SearchCompProps {
     applicant_id: string,
     applicant_name_first: string,
