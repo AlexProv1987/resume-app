@@ -88,7 +88,12 @@ export const SearchComponent = (props: SearchCompProps) => {
                     </Row>
                 </>
                 : <CenteredSpinner />}
-            <Modal size="lg" show={show} onHide={() => { setShow(false), setInputVal(''), setAnswer('') }} centered>
+            <Modal size="lg" show={show} onHide={() => { 
+                                                    setShow(false);
+                                                    setInputVal('');
+                                                    setAnswer('');
+                                                }} 
+                                                centered>
                 <div className="card-carousel">
                     <Modal.Header closeButton className="card-section-title">
                         <Modal.Title>Applicant Insights</Modal.Title>
@@ -100,7 +105,7 @@ export const SearchComponent = (props: SearchCompProps) => {
                             <BouncingDotsLoader />}
                     </Modal.Body>
                     <Modal.Footer className="card-section-title">
-                        <Button className="custom-cancel" variant="secondary" size="sm" onClick={() => { setShow(false), setInputVal(''), setAnswer('') }}>
+                        <Button className="custom-cancel" variant="secondary" size="sm" onClick={() => { setShow(false); setInputVal(''); setAnswer(''); }}>
                             Close
                         </Button>
                     </Modal.Footer>
