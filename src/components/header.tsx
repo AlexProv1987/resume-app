@@ -1,11 +1,12 @@
 import { Col, Container, Row, Image, Alert, Card } from "react-bootstrap"
 import { useEffect, useRef, useState } from "react"
-import { applicant, defaultPhoto, defaultBannerImg } from "../common/constants"
+import { applicant } from "../common/constants"
 import { SearchComponent } from "./header-children/ai-search"
 import { CenteredSpinner } from "./common/centered-spinner"
 import { PersonLinesFill } from "react-bootstrap-icons"
 import { ApplicantRecord, ContactMethod, Social } from "../common/interfaces"
 import { getContactIcon, getSocialIcon } from "../common/icon-maps"
+import { isMobile } from "react-device-detect"
 
 interface Props {
     applicantData: ApplicantRecord | null,
@@ -35,9 +36,9 @@ export const Header = (props: Props) => {
             <SearchComponent
                 applicant_id={applicant}
                 applicant_name_first={`${props.applicantData?.user_reltn.first_name}`}
-                banner_img={props.applicantData?.banner_img ? props.applicantData.banner_img : defaultBannerImg}
+                banner_img={props.applicantData?.banner_img ? props.applicantData.banner_img : 'default_banner.jpg'}
             />
-            <Container>
+            <Container style={{paddingLeft:'1.5rem',paddingRight:isMobile ? '1.5rem' : '1rem'}}>
                 <Card className="shadow justify-content-around card-carousel" style={{ marginTop: '2rem', minHeight: '18rem', width: '100%' }}>
                     <Card.Title className="card-section-title-left text-center text-dark-emphasis" style={{ height: '3rem' }}><PersonLinesFill className="me-2" size={18} />{props.applicantData && `${props.applicantData.user_reltn.first_name} ${props.applicantData.user_reltn.last_name}`}</Card.Title>
                     {props.applicantData ?
@@ -46,7 +47,7 @@ export const Header = (props: Props) => {
                                 <Col xs={12} md={3}>
                                     <Image
 
-                                        src={props.applicantData?.applicant_photo ? props.applicantData.applicant_photo : defaultPhoto}
+                                        src={props.applicantData?.applicant_photo ? props.applicantData.applicant_photo : 'default_profile.png'}
                                         roundedCircle
                                         fluid
                                     />
@@ -57,7 +58,7 @@ export const Header = (props: Props) => {
                             </Row>
                             <Row className="d-flex flex-row-reverse card-section-title" ref={iconContainerRef}>
                                   {props.applicantData?.social?.length !== 0 &&
-                                    props.applicantData.social.map((social: Social, idx: number) => {
+                                    props.applicantData.social.slice(0,2).map((social: Social, idx: number) => {
 
                                         const iconConfig = getSocialIcon(social.platform);
                                         

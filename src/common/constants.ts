@@ -1,3 +1,2 @@
-export const applicant:string = '0c876e45ff134c7ab438d358d870be0d';
-export const defaultPhoto:string ='https://i.ibb.co/dJ4M8CSV/Eric-Cartman.png';
-export const defaultBannerImg: string = 'https://i.ibb.co/k26ncWLR/placeholderbg.jpg';
+//will be env var
+export const applicant:string = '2ae5a1270a454e498084d4fdd5e503ea';

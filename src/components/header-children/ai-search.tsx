@@ -1,9 +1,8 @@
 import { useState } from "react"
-import { Form, Container, Row, Col, Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap"
+import { Form, Container, Row, Col, Modal, Button} from "react-bootstrap"
 import { CenteredSpinner } from "../common/centered-spinner"
 import { axiosBaseURL } from "../../http"
 import { DownloadResume } from "./download_resume"
-import Rating from "react-rating"
 import { BouncingDotsLoader } from "../common/bouncing-loader"
 import { applicant } from "../../common/constants"
 interface SearchCompProps {

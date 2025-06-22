@@ -20,7 +20,7 @@ function App() {
   const [applicantData, setApplicantData] = useState<ApplicantRecord | null>(null)
   const [alertMsg, setAlertMsg] = useState<string>('')
   useEffect(() => {
-    axiosBaseURL.get(`applicant/applicant_set/${applicant}`)
+    axiosBaseURL.get(`applicant/get_applicant_data/${applicant}`)
       .then(function (response) {
         setApplicantData(response.data)
       })
@@ -63,7 +63,7 @@ function App() {
         <Row>
           <Col lg={9}>
             <JobHistory />
-            <hr className="my-4" style={{ borderColor: '#eee' }} />
+            <hr className="my-2" style={{ borderColor: '#eee' }} />
             <Projects />
           </Col>
           <Col lg={3} className={`d-flex flex-column ${isMobile ? 'align-items-center' : 'align-items-end'}`}>
