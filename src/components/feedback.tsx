@@ -20,7 +20,7 @@ export function FeedbackModalButton(props:Props) {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        axiosBaseURL.post('feedback/create/',
+        axiosBaseURL.post('feedback/create/feedback',
             { applicant_reltn: applicant, rating: rating, comment: comment }
         ).then(function (response) {
             didSubmit.current = true
