@@ -15,10 +15,12 @@ import { isMobile } from 'react-device-detect';
 import { axiosBaseURL } from './http';
 import { applicant } from './constants';
 import { ApplicantRecord } from './common/interfaces';
+import { BioComponent } from './components/bio';
 function App() {
 
   const [applicantData, setApplicantData] = useState<ApplicantRecord | null>(null)
   const [alertMsg, setAlertMsg] = useState<string>('')
+  
   useEffect(() => {
     axiosBaseURL.get(`applicant/get_applicant_data/${applicant}`)
       .then(function (response) {
@@ -58,6 +60,9 @@ function App() {
         </Alert>
       }
       <Header applicantData={applicantData ? applicantData : null} />
+      <Container style={{paddingLeft:'1.5rem',paddingRight:isMobile ? '1.5rem' : '1rem'}}>
+      <BioComponent applicantData={applicantData}/>
+      </Container>
       <Container style={{ flex: 1, marginTop: '2rem', }}>
         <Row>
           <Col lg={9}>
