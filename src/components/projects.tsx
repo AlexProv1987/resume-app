@@ -126,7 +126,7 @@ export const Projects = () => {
                 {projects ? (
                     <Row className="m-3">
                         {paginatedProjects?.map((project: ProjectSet) => (
-                            <Col className="mb-2 d-flex fade-in-up" key={project.project.id}>
+                            <Col sm={6} className="mb-2 d-flex fade-in-up" key={project.project.id}>
                                 <Card className="shadow" style={{ minHeight: '18rem' }}>
                                     <Card.Header className="card-section-title-left text-secondary-emphasis"><h5>{project.project.name}</h5></Card.Header>
                                     <Card.Body>
